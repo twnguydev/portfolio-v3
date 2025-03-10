@@ -1,0 +1,54 @@
+@font-face {
+  font-family: 'GeistVF';
+  src: url('../fonts/GeistVF.woff') format('woff');
+  font-display: swap;
+  font-weight: normal;
+  font-style: normal;
+}
+
+.font-sans {
+  font-family: 'GeistVF', system-ui, -apple-system, sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #0A0A0A;
+  color: get-color('white');
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.scroll-smooth {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  
+  &::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: rgba(var(--color-white-rgb), 0.1);
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: rgba(var(--color-purple-600-rgb), 0.5);
+    border-radius: 5px;
+    
+    &:hover {
+      background: rgba(var(--color-purple-600-rgb), 0.7);
+    }
+  }
+}

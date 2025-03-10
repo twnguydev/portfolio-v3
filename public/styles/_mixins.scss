@@ -1,0 +1,27 @@
+@use 'sass:map';
+@use 'sass:color';
+@use 'variables' as *;
+
+@mixin backdrop-blur($amount) {
+  backdrop-filter: blur($amount);
+  -webkit-backdrop-filter: blur($amount);
+}
+
+@mixin bg-gradient($direction, $from, $to) {
+  background-image: linear-gradient($direction, $from, $to);
+}
+
+@mixin text-gradient($direction, $from, $to) {
+  background-image: linear-gradient($direction, $from, $to);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@function get-color($color, $shade: null) {
+  @if $shade {
+    @return map.get(map.get($colors, $color), $shade);
+  } @else {
+    @return map.get($colors, $color);
+  }
+}

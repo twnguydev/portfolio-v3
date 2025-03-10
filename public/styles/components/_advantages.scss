@@ -1,0 +1,294 @@
+@use 'sass:map';
+@use '../variables' as *;
+
+.advantages {
+  padding: 5rem 0;
+  position: relative;
+
+  &__overlay {
+    position: absolute;
+    inset: 0;
+    background-image: linear-gradient(
+      to top,
+      rgba(var(--color-purple-900-rgb), 0.2),
+      transparent,
+      transparent
+    );
+  }
+
+  &__container {
+    max-width: var(--container-max-width);
+    margin: 0 auto;
+    padding: 0 1rem;
+    position: relative;
+
+    @media (min-width: map.get($breakpoints, 'sm')) {
+      padding: 0 1.5rem;
+    }
+    
+    @media (min-width: map.get($breakpoints, 'lg')) {
+      padding: 0 2rem;
+    }
+  }
+
+  &__header {
+    max-width: 48rem;
+    margin: 0 auto;
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+
+  &__title {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    background: linear-gradient(
+      to right,
+      var(--color-white),
+      var(--color-purple-200)
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+
+    &-accent {
+      background: linear-gradient(
+        to right,
+        var(--color-purple-400),
+        var(--color-pink-500)
+      );
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+  }
+
+  &__description {
+    font-size: 1.25rem;
+    color: rgb(var(--color-gray-300-rgb));
+  }
+
+  &__grid {
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: 1fr;
+
+    @media (min-width: map.get($breakpoints, 'md')) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (min-width: map.get($breakpoints, 'lg')) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  &__card {
+    position: relative;
+    padding: 2rem;
+    border-radius: 1rem;
+    border: 1px solid rgba(var(--color-white-rgb), 0.1);
+    backdrop-filter: blur(4px);
+    background-image: linear-gradient(
+      to bottom right,
+      rgba(var(--color-white-rgb), 0.05),
+      rgba(var(--color-white-rgb), 0)
+    );
+    overflow: hidden;
+    transition: transform var(--transition-default);
+
+    &:hover {
+      transform: translateY(-2px);
+
+      .advantages__card-overlay {
+        opacity: 0.1;
+      }
+    }
+  }
+
+  &__card-overlay {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity var(--transition-default);
+
+    &[data-gradient="from-blue-500 to-purple-500"] {
+      background-image: linear-gradient(
+        to bottom right,
+        var(--color-blue-500),
+        var(--color-purple-500)
+      );
+    }
+
+    &[data-gradient="from-purple-500 to-pink-500"] {
+      background-image: linear-gradient(
+        to bottom right,
+        var(--color-purple-500),
+        var(--color-pink-500)
+      );
+    }
+
+    &[data-gradient="from-pink-500 to-rose-500"] {
+      background-image: linear-gradient(
+        to bottom right,
+        var(--color-pink-500),
+        var(--color-rose-500)
+      );
+    }
+
+    &[data-gradient="from-rose-500 to-orange-500"] {
+      background-image: linear-gradient(
+        to bottom right,
+        var(--color-rose-500),
+        var(--color-orange-500)
+      );
+    }
+
+    &[data-gradient="from-orange-500 to-amber-500"] {
+      background-image: linear-gradient(
+        to bottom right,
+        var(--color-orange-500),
+        var(--color-amber-500)
+      );
+    }
+
+    &[data-gradient="from-amber-500 to-yellow-500"] {
+      background-image: linear-gradient(
+        to bottom right,
+        var(--color-amber-500),
+        var(--color-yellow-500)
+      );
+    }
+  }
+
+  &__card-icon-wrapper {
+    &[data-gradient="from-blue-500 to-purple-500"] {
+      background-image: linear-gradient(
+        to right,
+        var(--color-blue-500),
+        var(--color-purple-500)
+      );
+    }
+
+    &[data-gradient="from-purple-500 to-pink-500"] {
+      background-image: linear-gradient(
+        to right,
+        var(--color-purple-500),
+        var(--color-pink-500)
+      );
+    }
+
+    &[data-gradient="from-pink-500 to-rose-500"] {
+      background-image: linear-gradient(
+        to right,
+        var(--color-pink-500),
+        var(--color-rose-500)
+      );
+    }
+
+    &[data-gradient="from-rose-500 to-orange-500"] {
+      background-image: linear-gradient(
+        to right,
+        var(--color-rose-500),
+        var(--color-orange-500)
+      );
+    }
+
+    &[data-gradient="from-orange-500 to-amber-500"] {
+      background-image: linear-gradient(
+        to right,
+        var(--color-orange-500),
+        var(--color-amber-500)
+      );
+    }
+
+    &[data-gradient="from-amber-500 to-yellow-500"] {
+      background-image: linear-gradient(
+        to right,
+        var(--color-amber-500),
+        var(--color-yellow-500)
+      );
+    }
+  }
+
+  &__card-content {
+    position: relative;
+    z-index: 1;
+  }
+
+  &__card-icon-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    margin-bottom: 1.5rem;
+    border-radius: 0.75rem;
+    padding: 0.5rem;
+
+    &[data-gradient="from-blue-500 to-purple-500"] {
+      background: linear-gradient(
+        to right,
+        var(--color-blue-500),
+        var(--color-purple-500)
+      );
+    }
+
+    &[data-gradient="from-purple-500 to-pink-500"] {
+      background: linear-gradient(
+        to right,
+        var(--color-purple-500),
+        var(--color-pink-500)
+      );
+    }
+
+    &[data-gradient="from-pink-500 to-rose-500"] {
+      background: linear-gradient(
+        to right,
+        var(--color-pink-500),
+        var(--color-rose-500)
+      );
+    }
+
+    &[data-gradient="from-rose-500 to-orange-500"] {
+      background: linear-gradient(
+        to right,
+        var(--color-rose-500),
+        var(--color-orange-500)
+      );
+    }
+
+    &[data-gradient="from-orange-500 to-amber-500"] {
+      background: linear-gradient(
+        to right,
+        var(--color-orange-500),
+        var(--color-amber-500)
+      );
+    }
+
+    &[data-gradient="from-amber-500 to-yellow-500"] {
+      background: linear-gradient(
+        to right,
+        var(--color-amber-500),
+        var(--color-yellow-500)
+      );
+    }
+  }
+
+  &__card-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    color: var(--color-white);
+  }
+
+  &__card-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-white);
+    margin-bottom: 1rem;
+  }
+
+  &__card-description {
+    color: rgb(var(--color-gray-400-rgb));
+    line-height: 1.6;
+  }
+}

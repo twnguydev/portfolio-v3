@@ -1,0 +1,92 @@
+@use 'sass:map';
+@use '../variables' as *;
+
+.stats {
+  padding: 4rem 0;
+  position: relative;
+
+  &__overlay {
+    position: absolute;
+    inset: 0;
+    background-image: linear-gradient(
+      to bottom,
+      rgba(var(--color-purple-900-rgb), 0.2),
+      transparent
+    );
+  }
+
+  &__container {
+    max-width: var(--container-max-width);
+    margin: 0 auto;
+    padding: 0 1rem;
+    position: relative;
+
+    @media (min-width: map.get($breakpoints, 'sm')) {
+      padding: 0 1.5rem;
+    }
+    
+    @media (min-width: map.get($breakpoints, 'lg')) {
+      padding: 0 2rem;
+    }
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 1rem;
+
+    @media (min-width: map.get($breakpoints, 'sm')) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (min-width: map.get($breakpoints, 'lg')) {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  &__card {
+    padding: 1rem;
+    border-radius: 1rem;
+    background-color: rgba(var(--color-white-rgb), 0.05);
+    border: 1px solid rgba(var(--color-white-rgb), 0.1);
+    backdrop-filter: blur(4px);
+
+    @media (min-width: map.get($breakpoints, 'md')) {
+      padding: 2rem;
+    }
+  }
+
+  &__number {
+    font-size: 2.25rem;
+    font-weight: 900;
+    margin-bottom: 0.5rem;
+    background-image: linear-gradient(
+      to right,
+      var(--color-purple-400),
+      var(--color-pink-500)
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+
+    @media (min-width: map.get($breakpoints, 'md')) {
+      font-size: 3rem;
+    }
+  }
+
+  &__label {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--color-white);
+    margin-bottom: 0.25rem;
+
+    @media (min-width: map.get($breakpoints, 'md')) {
+      font-size: 1.125rem;
+    }
+  }
+
+  &__sublabel {
+    font-size: 0.875rem;
+    color: rgb(var(--color-gray-400-rgb));
+  }
+}

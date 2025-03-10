@@ -1,0 +1,47 @@
+@use 'sass:map';
+@use '../variables' as *;
+
+.footer {
+  padding: 2rem 0;
+  border-top: 1px solid rgba(var(--color-white-rgb), 0.1);
+
+  &__container {
+    max-width: var(--container-max-width);
+    margin: 0 auto;
+    padding: 0 1rem;
+
+    @media (min-width: map.get($breakpoints, 'sm')) {
+      padding: 0 1.5rem;
+    }
+    
+    @media (min-width: map.get($breakpoints, 'lg')) {
+      padding: 0 2rem;
+    }
+  }
+
+  &__content {
+    text-align: center;
+  }
+
+  &__copyright {
+    color: rgb(var(--color-gray-400-rgb));
+  }
+
+  &__name {
+    margin-left: 0.25rem;
+    background: linear-gradient(
+      to right,
+      var(--color-purple-400),
+      var(--color-pink-500)
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  &__location {
+    margin-top: 0.5rem;
+    font-size: 0.875rem;
+    color: rgb(var(--color-gray-500-rgb));
+  }
+}
