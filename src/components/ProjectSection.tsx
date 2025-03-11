@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState, useCallback, useMemo, Suspense, lazy } from 'react';
 import Image from 'next/image';
-import { ProjectModal } from './ProjectModal';
 import { Trophy, Clock, Rocket, Brain, Server } from 'lucide-react';
 
+// Lazy loading du modal pour réduire le bundle initial
+const ProjectModal = lazy(() => import('./ProjectModal').then(mod => ({ default: mod.ProjectModal })));
+
+// Types
 interface Skill {
   name: string;
   description: string;
@@ -28,11 +31,102 @@ interface Project {
   skills: Skill[]
 }
 
+const Loader = () => (
+  <div className="projects__loader">
+    <div className="projects__loader-spinner"></div>
+    <p>Chargement des projets...</p>
+  </div>
+);
+
+const ProjectCard = ({ project, onClick }: { project: Project, onClick: () => void }) => {
+  const { title, shortDescription, images, tags, badges } = project;
+
+  return (
+    <div
+      onClick={onClick}
+      className="projects__card"
+    >
+      <div className="projects__card-content">
+        <Image
+          src={images[0]}
+          alt={title}
+          className="projects__image"
+          width={480}
+          height={270}
+          quality={75}
+          placeholder="blur"
+          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+P+/HgAFeAJc8Zps7QAAAABJRU5ErkJggg=="
+          loading="lazy"
+        />
+        <div className="projects__blur-overlay"></div>
+        <div className="projects__gradient-overlay"></div>
+        <div className="projects__theme-overlay"></div>
+
+        {badges && (
+          <div className="projects__badges">
+            {badges.inProgress && (
+              <span className="projects__badge projects__badge--in-progress">
+                <Clock className="projects__badge-icon" size={14} />
+                En cours
+              </span>
+            )}
+            {badges.winner && (
+              <span className="projects__badge projects__badge--winner">
+                <Trophy className="projects__badge-icon" size={14} />
+                Lauréat
+              </span>
+            )}
+            {badges.hackathon && (
+              <span className="projects__badge projects__badge--hackathon">
+                <Rocket className="projects__badge-icon" size={14} />
+                Hackathon
+              </span>
+            )}
+            {badges.ia && (
+              <span className="projects__badge projects__badge--ia">
+                <Brain className="projects__badge-icon" size={14} />
+                IA
+              </span>
+            )}
+            {badges.professional && (
+              <span className="projects__badge projects__badge--professional">
+                <Server className="projects__badge-icon" size={14} />
+                Pro
+              </span>
+            )}
+          </div>
+        )}
+
+        <div className="projects__info">
+          <h3 className="projects__info-title">{title}</h3>
+          <p className="projects__info-description">{shortDescription}</p>
+          <div className="projects__tags">
+            {tags.slice(0, 3).map((tag, tagIndex) => (
+              <span
+                key={tagIndex}
+                className={`projects__tag projects__tag--${tag.toLowerCase().replace(' ', '-').replace('.', '')}`}
+              >
+                {tag}
+              </span>
+            ))}
+            {tags.length > 3 && (
+              <span className="projects__tag projects__tag--more">
+                +{tags.length - 3}
+              </span>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const ProjectSection = (): JSX.Element => {
   const [showProject, setShowProject] = useState<Project | null>(null);
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  const projects: Project[] = [
+  const projects = useMemo<Project[]>(() => [
     {
       title: "Modernisation ERP",
       shortDescription: "Migration complète d'un ERP pour une ESN avec architecture moderne",
@@ -44,6 +138,7 @@ const ProjectSection = (): JSX.Element => {
       ],
       tags: ["Laravel", "Angular", "TypeScript", "Docker", "MySQL", "CI/CD"],
       gradient: "blue-cyan",
+      demoUrl: "https://lwt.jlcconsulting.eu",
       badges: {
         professional: true,
       },
@@ -70,10 +165,14 @@ const ProjectSection = (): JSX.Element => {
       shortDescription: "Plateforme de simulation et d'optimisation de processus business",
       description: "Développement d'un logiciel SaaS destiné aux entreprises pour la simulation et l'optimisation de leurs processus métier, permettant de visualiser et d'améliorer les processus opérationnels.",
       images: [
-        "/images/projects/workflow.webp" // Placeholder - à remplacer
+        "/images/projects/twool.webp",
+        "/images/projects/twool2.webp",
+        "/images/projects/twool3.webp",
+        "/images/projects/twool4.webp"
       ],
       tags: ["Next.js", "FastAPI", "MySQL", "Tailwind", "Docker", "Electron"],
       gradient: "purple-pink",
+      sourceUrl: "https://github.com/twnguydev/twool",
       badges: {
         professional: true,
         inProgress: true
@@ -107,6 +206,7 @@ const ProjectSection = (): JSX.Element => {
       ],
       tags: ["React", "TypeScript", "Tailwind", "FastAPI", "Supabase", "Docker"],
       gradient: "pink-purple",
+      sourceUrl: "https://github.com/twnguydev/uniteam",
       badges: {
         hackathon: true,
         winner: true
@@ -141,6 +241,8 @@ const ProjectSection = (): JSX.Element => {
       ],
       tags: ["Next.js", "NodeJS", "Beautiful Soup", "Automatisation"],
       gradient: "blue-cyan",
+      sourceUrl: "https://github.com/twnguydev/jobbbly",
+      demoUrl: "https://jobbbly.vercel.app/",
       badges: {
         inProgress: true,
       },
@@ -174,7 +276,6 @@ const ProjectSection = (): JSX.Element => {
       tags: ["Spring Boot", "Angular", "TypeScript", "Tailwind", "MySQL", "MongoDB", "Swagger", "Docker"],
       gradient: "green-emerald",
       sourceUrl: "https://github.com/twnguydev/mobalpa",
-      demoUrl: "https://mobalpa.netlify.app",
       badges: {
         ia: true,
       },
@@ -209,6 +310,7 @@ const ProjectSection = (): JSX.Element => {
       ],
       tags: ["Python", "React", "TypeScript", "Tailwind", "IA Générative", "Docker"],
       gradient: "amber-yellow",
+      sourceUrl: "https://github.com/twnguydev/hackaton-onepoint",
       badges: {
         hackathon: true,
         winner: true,
@@ -249,6 +351,8 @@ const ProjectSection = (): JSX.Element => {
       ],
       tags: ["JavaScript", "Phaser"],
       gradient: "blue-cyan",
+      sourceUrl: "https://github.com/twnguydev/alternance-quest-rpg",
+      demoUrl: "https://webac-jsf-display.vercel.app/tanguy",
       skills: [
         {
           name: "Utilisation de Phaser",
@@ -274,6 +378,7 @@ const ProjectSection = (): JSX.Element => {
       ],
       tags: ["HTML", "Bootstrap", "PHP", "MySQL"],
       gradient: "amber-yellow",
+      sourceUrl: "https://github.com/twnguydev/twitter-like",
       skills: [
         {
           name: "Gestion de projet",
@@ -292,16 +397,46 @@ const ProjectSection = (): JSX.Element => {
         }
       ]
     },
-  ];
+  ], []);
 
-  const getTag = (tag: string): string => {
-    return tag.toLowerCase().replace(' ', '-').replace('.', '');
-  };
+  const allTags = useMemo(() =>
+    [...new Set(projects.flatMap(project => project.tags))].sort(),
+    [projects]);
 
-  const allTags = [...new Set(projects.flatMap(project => project.tags))].sort();
-  const filteredProjects = selectedTag
-    ? projects.filter(project => project.tags.includes(selectedTag))
-    : projects;
+  const filteredProjects = useMemo(() =>
+    selectedTag
+      ? projects.filter(project => project.tags.includes(selectedTag))
+      : projects,
+    [projects, selectedTag]);
+
+  const selectProject = useCallback((project: Project) => {
+    setShowProject(project);
+  }, []);
+
+  const closeModal = useCallback(() => {
+    setShowProject(null);
+  }, []);
+
+  const handleTagFilter = useCallback((tag: string | null) => {
+    setSelectedTag(tag);
+  }, []);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 300);
+    return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    const preloadImages = () => {
+      projects.forEach(project => {
+        const img = new window.Image();
+        img.src = project.images[0];
+      });
+    };
+    preloadImages();
+  }, [projects]);
 
   return (
     <section className="projects" id="portfolio">
@@ -320,7 +455,7 @@ const ProjectSection = (): JSX.Element => {
         <div className="projects__filters">
           <button
             className={`projects__filter ${!selectedTag ? 'active' : ''}`}
-            onClick={() => setSelectedTag(null)}
+            onClick={() => handleTagFilter(null)}
           >
             Tous
           </button>
@@ -328,95 +463,36 @@ const ProjectSection = (): JSX.Element => {
             <button
               key={tag}
               className={`projects__filter ${selectedTag === tag ? 'active' : ''}`}
-              onClick={() => setSelectedTag(tag)}
+              onClick={() => handleTagFilter(tag)}
             >
               {tag}
             </button>
           ))}
         </div>
 
-        <div className="projects__grid">
-          {filteredProjects.map((project, index) => (
-            <div
-              key={index}
-              onClick={() => setShowProject(project)}
-              className="projects__card"
-            >
-              <div className="projects__card-content">
-                <Image
-                  src={project.images[0]}
-                  alt={project.title}
-                  className="projects__image"
-                  width={1920}
-                  height={1080}
-                  loading="lazy"
-                />
-                <div className="projects__blur-overlay"></div>
-                <div className="projects__gradient-overlay"></div>
-                <div className="projects__theme-overlay"></div>
-
-                {project.badges && (
-                  <div className="projects__badges">
-                    {project.badges.inProgress && (
-                      <span className="projects__badge projects__badge--in-progress">
-                        <Clock className="projects__badge-icon" />
-                        En cours
-                      </span>
-                    )}
-                    {project.badges.winner && (
-                      <span className="projects__badge projects__badge--winner">
-                        <Trophy className="projects__badge-icon" />
-                        Lauréat
-                      </span>
-                    )}
-                    {project.badges.hackathon && (
-                      <span className="projects__badge projects__badge--hackathon">
-                        <Rocket className="projects__badge-icon" />
-                        Hackathon
-                      </span>
-                    )}
-                    {project.badges.ia && (
-                      <span className="projects__badge projects__badge--ia">
-                        <Brain className="projects__badge-icon" />
-                        IA
-                      </span>
-                    )}
-                    {project.badges.professional && (
-                      <span className="projects__badge projects__badge--professional">
-                        <Server className="projects__badge-icon" />
-                        Pro
-                      </span>
-                    )}
-                  </div>
-                )}
-
-                <div className="projects__info">
-                  <h3 className="projects__info-title">{project.title}</h3>
-                  <p className="projects__info-description">{project.shortDescription}</p>
-                  <div className="projects__tags">
-                    {project.tags.map((tag, tagIndex) => (
-                      <span
-                        key={tagIndex}
-                        className={`projects__tag projects__tag--${getTag(tag)}`}
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <div className="projects__grid">
+            {filteredProjects.map((project, index) => (
+              <ProjectCard
+                key={project.title + index}
+                project={project}
+                onClick={() => selectProject(project)}
+              />
+            ))}
+          </div>
+        )}
       </div>
-      {
-        showProject && (
+
+      {showProject && (
+        <Suspense fallback={<div className="modal-loading">Chargement...</div>}>
           <ProjectModal
             project={showProject}
-            onClose={() => setShowProject(null)}
+            onClose={closeModal}
           />
-        )
-      }
+        </Suspense>
+      )}
     </section>
   );
 };

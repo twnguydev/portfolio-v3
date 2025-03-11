@@ -20,12 +20,12 @@ const TerminalSection = (): JSX.Element => {
   const [gameScore, setGameScore] = useState<number | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const [isSnakeActive, setIsSnakeActive] = useState<boolean>(false);
+  const [shouldScroll, setShouldScroll] = useState<boolean>(false);
 
   const GITHUB_URL = 'https://github.com/twnguydev/twnguydev';
   const EMAIL = 'hello@tanguygibrat.fr';
   const CLONE_COMMAND = `git clone ${GITHUB_URL}.git`;
 
-  // Utiliser useMemo pour mémoriser le tableau commands
   const commands = useMemo(() => [
     {
       command: 'help',
@@ -87,17 +87,17 @@ const TerminalSection = (): JSX.Element => {
         '   - Mise en place Docker et CI/CD',
         '   - Amélioration UX et performances',
         '',
-        '📂 SaaS Workflow Optimizer:',
+        '📂 Twool Labs Workflow Optimizer:',
         '   - Plateforme de simulation et optimisation de processus',
         '   - Stack Next.js, TypeScript, Node.js, PostgreSQL',
         '',
-        '📂 Éditique Santé:',
-        '   - Génération automatisée de documents médicaux',
-        '   - C#, .NET, SQL Server',
-        '',
         '📂 UniTeam (Hackathon - 1er prix):',
         '   - Plateforme de gestion de salles universitaires',
-        '   - React, TypeScript, FastAPI, Supabase'
+        '   - React, TypeScript, FastAPI, Supabase',
+        '',
+        '📂 IA 4 Good (Hackathon - 1er prix):',
+        '   - Tableau de bord de suivi et de prédiction de l\'activité polluante du port Marseille-Fos',
+        '   - React, TypeScript, Ollama, GPT-4o',
       ]
     },
     {
@@ -121,7 +121,7 @@ const TerminalSection = (): JSX.Element => {
         'Utilisez les flèches pour contrôler le serpent. Appuyez sur ESC pour quitter.'
       ]
     }
-  ], []); // tableau de dépendances vide car les commandes sont statiques
+  ], []);
 
   const copyToClipboard = async (text: string, type: string) => {
     try {
@@ -138,57 +138,53 @@ const TerminalSection = (): JSX.Element => {
   };
 
   const scrollToBottom = useCallback(() => {
+    if (!shouldScroll) return;
+    
     if (terminalContentRef.current) {
-      setTimeout(() => {
-        terminalContentRef.current!.scrollTop = terminalContentRef.current!.scrollHeight;
-      }, 50);
+      terminalContentRef.current.scrollTop = terminalContentRef.current.scrollHeight;
     }
-  }, []);
+  }, [shouldScroll]);
+
+  useEffect(() => {
+    if (shouldScroll) {
+      scrollToBottom();
+      setShouldScroll(false);
+    }
+  }, [shouldScroll, scrollToBottom]);
 
   const handleCommand = useCallback((cmd: string) => {
     if (cmd.trim() === '') return;
     
     setCommandOutput(prev => [...prev, `$ ${cmd}`]);
+    setShouldScroll(true);
     
     if (cmd === 'clear') {
-      setTimeout(() => {
-        setCommandOutput([]);
-      }, 200);
+      setCommandOutput([]);
       return;
     }
     
     if (cmd === 'snake') {
-      setTimeout(() => {
-        const snakeCommand = commands.find(c => c.command === 'snake');
-        if (snakeCommand) {
-          setCommandOutput(prev => [...prev, ...snakeCommand.output]);
-          setTimeout(() => {
-            setShowSnake(true);
-            setIsSnakeActive(true);
-          }, 1000);
-        }
-      }, 200);
+      const snakeCommand = commands.find(c => c.command === 'snake');
+      if (snakeCommand) {
+        setCommandOutput(prev => [...prev, ...snakeCommand.output]);
+        setTimeout(() => {
+          setShowSnake(true);
+          setIsSnakeActive(true);
+        }, 500);
+      }
       return;
     }
     
     const foundCommand = commands.find(c => c.command === cmd.trim());
     
     if (foundCommand) {
-      setTimeout(() => {
-        setCommandOutput(prev => [...prev, ...foundCommand.output]);
-        scrollToBottom();
-      }, 200);
+      setCommandOutput(prev => [...prev, ...foundCommand.output]);
     } else {
-      setTimeout(() => {
-        setCommandOutput(prev => [...prev, `Commande non reconnue: ${cmd}`, 'Tapez "help" pour voir les commandes disponibles']);
-        scrollToBottom();
-      }, 200);
+      setCommandOutput(prev => [...prev, `Commande non reconnue: ${cmd}`, 'Tapez "help" pour voir les commandes disponibles']);
     }
-  }, [commands, scrollToBottom]); // Maintenant commands est correctement dans les dépendances
+  }, [commands]);
 
-  // IMPORTANT: Ne pas intercepter les événements clavier quand Snake est actif
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    // Si Snake est actif, ne rien faire
+  const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
     if (isSnakeActive) return;
     
     if (e.key === 'Enter') {
@@ -197,6 +193,7 @@ const TerminalSection = (): JSX.Element => {
       handleCommand(cmd);
       setInputValue('');
       setHistoryIndex(-1);
+      setShouldScroll(true);
     } else if (e.key === 'ArrowUp') {
       e.preventDefault();
       const newIndex = Math.min(historyIndex + 1, inputHistory.length - 1);
@@ -214,41 +211,17 @@ const TerminalSection = (): JSX.Element => {
       }
       setHistoryIndex(newIndex);
     }
-  };
+  }, [handleCommand, historyIndex, inputHistory, inputValue, isSnakeActive]);
 
-  // S'assurer que les événements clavier ne sont pas interceptés par d'autres éléments
-  useEffect(() => {
-    // Désactiver tous les gestionnaires d'événements clavier
-    // au niveau du document quand Snake est actif 
-    const disableKeyHandlers = (e: KeyboardEvent) => {
-      if (isSnakeActive && ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
-        // Ne pas stopper la propagation - le jeu doit pouvoir les recevoir
-        return;
-      }
-    };
-    
-    if (isSnakeActive) {
-      document.addEventListener('keydown', disableKeyHandlers, { capture: false });
-    }
-    
-    return () => {
-      document.removeEventListener('keydown', disableKeyHandlers, { capture: false });
-    };
-  }, [isSnakeActive]);
-
-  // Permettre la libération propre des ressources
   const handleSnakeGameOver = useCallback((score: number) => {
-    // Délai pour éviter les mises à jour d'état pendant le rendu
-    setTimeout(() => {
-      setGameScore(score);
-    }, 50);
+    setGameScore(score);
+    setShouldScroll(true);
   }, []);
 
   const handleSnakeExit = useCallback(() => {
     setShowSnake(false);
     setIsSnakeActive(false);
-    
-    // Focus sur l'input quand le jeu se ferme
+
     setTimeout(() => {
       if (inputRef.current) {
         inputRef.current.focus();
@@ -256,14 +229,23 @@ const TerminalSection = (): JSX.Element => {
     }, 100);
   }, []);
 
-  // Ajouter le score au terminal
   useEffect(() => {
     if (gameScore !== null) {
       setCommandOutput(prev => [...prev, `🎮 Jeu terminé! Score: ${gameScore}`]);
-      scrollToBottom();
+      setShouldScroll(true);
       setGameScore(null);
     }
-  }, [gameScore, scrollToBottom]);
+  }, [gameScore]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (inputRef.current && !isSnakeActive) {
+        inputRef.current.focus();
+      }
+    }, 100);
+    
+    return () => clearTimeout(timer);
+  }, [isSnakeActive]);
 
   return (
     <section className="terminal-section">
@@ -285,7 +267,6 @@ const TerminalSection = (): JSX.Element => {
 
         <div className="terminal">
           <div className="terminal__window">
-            {/* Header */}
             <div className="terminal__header">
               <div className="terminal__buttons">
                 <div className="terminal__button terminal__button--red" />
@@ -295,7 +276,6 @@ const TerminalSection = (): JSX.Element => {
               <div className="terminal__title">tanguy@portfolio:~$</div>
             </div>
 
-            {/* Content */}
             <div 
               className={`terminal__content ${isSnakeActive ? 'terminal__content--game-active' : ''}`} 
               ref={terminalContentRef}
@@ -332,8 +312,7 @@ const TerminalSection = (): JSX.Element => {
                   </div>
                 ))}
               </div>
-              
-              {/* Jeu Snake en overlay */}
+
               {showSnake && (
                 <div className="terminal__modal-overlay">
                   <SnakeGame

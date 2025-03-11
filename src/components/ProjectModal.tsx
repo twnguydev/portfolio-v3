@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import Image from 'next/image';
 import { X, ChevronLeft, ChevronRight, ExternalLink, Code } from 'lucide-react';
 
@@ -111,8 +111,14 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) 
     return tag.toLowerCase().replace(' ', '-');
   };
 
+  const handleOutsideClick = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
+  }, [onClose]);
+
   return (
-    <div className="project-modal">
+    <div className="project-modal" onClick={handleOutsideClick}>
       <div className="project-modal__content">
         <button
           onClick={onClose}
