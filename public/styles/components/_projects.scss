@@ -371,6 +371,29 @@
     background-color: var(--color-bg);
     border: 1px solid rgba(var(--color-white-rgb), 0.1);
     padding: 1.5rem;
+    -webkit-overflow-scrolling: touch;
+    mask-image: radial-gradient(circle at center, white 100%, black 100%);
+    -webkit-mask-image: -webkit-radial-gradient(circle, white 100%, black 100%);
+  
+    &::-webkit-scrollbar {
+      width: 8px;
+    }
+    
+    &::-webkit-scrollbar-track {
+      background: rgba(var(--color-white-rgb), 0.1);
+      border-radius: 4px;
+    }
+    
+    &::-webkit-scrollbar-thumb {
+      background: rgba(var(--color-purple-600-rgb), 0.5);
+      border-radius: 4px;
+      border: 1px solid transparent;
+      background-clip: padding-box;
+      
+      &:hover {
+        background: rgba(var(--color-purple-600-rgb), 0.7);
+      }
+    }
   }
 
   &__carousel {
@@ -381,6 +404,10 @@
     border-radius: 0.75rem;
     overflow: hidden;
     z-index: 1;
+
+    @media (max-width: map.get($breakpoints, 'md')) {
+      min-height: 20rem;
+    }
 
     &-container {
       position: absolute;

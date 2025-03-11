@@ -25,7 +25,7 @@ const Portfolio = (): JSX.Element => {
       <AdvantageSection />
       <TechStackSection />
       <ContactSection />
-      {/* <TerminalSection /> */}
+      <TerminalSection />
       <Footer />
     </div>
   );

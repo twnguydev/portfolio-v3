@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import Image from 'next/image';
 import { X, ChevronLeft, ChevronRight, ExternalLink, Code } from 'lucide-react';
+import Link from 'next/link';
 
 interface Skill {
   name: string;
@@ -147,7 +148,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) 
 
           <div className="project-modal__actions">
             {project.demoUrl && (
-              <a
+              <Link
                 href={project.demoUrl}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -155,10 +156,10 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) 
               >
                 <ExternalLink size={18} />
                 Démo
-              </a>
+              </Link>
             )}
             {project.sourceUrl && (
-              <a
+              <Link
                 href={project.sourceUrl}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -166,7 +167,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({ project, onClose }) 
               >
                 <Code size={18} />
                 Code source
-              </a>
+              </Link>
             )}
           </div>
         </div>

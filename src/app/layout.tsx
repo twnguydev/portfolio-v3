@@ -11,7 +11,7 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL('https://tanguy-gibrat.fr'),
   title: {
-    default: "Tanguy Gibrat | Développeur Full Stack & Consultant",
+    default: "Tanguy Gibrat | Développeur web & Consultant",
     template: '%s | Tanguy Gibrat'
   },
   description: "Étudiant développeur Full Stack à la Web@cadémie by Epitech et consultant en alternance. Spécialisé en développement web, SaaS et automatisation.",

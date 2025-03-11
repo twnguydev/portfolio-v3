@@ -21,8 +21,10 @@ const TerminalSection = (): JSX.Element => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [isSnakeActive, setIsSnakeActive] = useState<boolean>(false);
   const [shouldScroll, setShouldScroll] = useState<boolean>(false);
+  const [hasInitialFocus, setHasInitialFocus] = useState<boolean>(false);
+  const [userClickedTerminal, setUserClickedTerminal] = useState<boolean>(false);
 
-  const GITHUB_URL = 'https://github.com/twnguydev/twnguydev';
+  const GITHUB_URL = 'https://github.com/twnguydev';
   const EMAIL = 'hello@tanguygibrat.fr';
   const CLONE_COMMAND = `git clone ${GITHUB_URL}.git`;
 
@@ -137,6 +139,7 @@ const TerminalSection = (): JSX.Element => {
     window.open(GITHUB_URL, '_blank', 'noopener,noreferrer');
   };
 
+  // Modifié pour éviter le scroll inattendu
   const scrollToBottom = useCallback(() => {
     if (!shouldScroll) return;
     
@@ -222,12 +225,15 @@ const TerminalSection = (): JSX.Element => {
     setShowSnake(false);
     setIsSnakeActive(false);
 
-    setTimeout(() => {
-      if (inputRef.current) {
-        inputRef.current.focus();
-      }
-    }, 100);
-  }, []);
+    // Ne focus que si l'utilisateur a interagi avec le terminal
+    if (userClickedTerminal) {
+      setTimeout(() => {
+        if (inputRef.current) {
+          inputRef.current.focus();
+        }
+      }, 100);
+    }
+  }, [userClickedTerminal]);
 
   useEffect(() => {
     if (gameScore !== null) {
@@ -237,15 +243,25 @@ const TerminalSection = (): JSX.Element => {
     }
   }, [gameScore]);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      if (inputRef.current && !isSnakeActive) {
-        inputRef.current.focus();
-      }
-    }, 100);
+  // Quand l'utilisateur clique sur le terminal, on active le focus
+  const handleTerminalClick = useCallback(() => {
+    if (!userClickedTerminal) {
+      setUserClickedTerminal(true);
+    }
     
-    return () => clearTimeout(timer);
-  }, [isSnakeActive]);
+    if (!isSnakeActive && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [isSnakeActive, userClickedTerminal]);
+
+  // Modifié pour éviter le focus automatique au chargement de la page
+  useEffect(() => {
+    // Ne focus pas automatiquement au chargement initial
+    if (userClickedTerminal && inputRef.current && !isSnakeActive && !hasInitialFocus) {
+      setHasInitialFocus(true);
+      inputRef.current.focus();
+    }
+  }, [isSnakeActive, userClickedTerminal, hasInitialFocus]);
 
   return (
     <section className="terminal-section">
@@ -266,7 +282,7 @@ const TerminalSection = (): JSX.Element => {
         </div>
 
         <div className="terminal">
-          <div className="terminal__window">
+          <div className="terminal__window" onClick={handleTerminalClick}>
             <div className="terminal__header">
               <div className="terminal__buttons">
                 <div className="terminal__button terminal__button--red" />
@@ -332,7 +348,7 @@ const TerminalSection = (): JSX.Element => {
                     value={inputValue}
                     onChange={e => setInputValue(e.target.value)}
                     onKeyDown={handleKeyDown}
-                    autoFocus
+                    // Supprimer autoFocus pour éviter le scroll automatique
                     spellCheck={false}
                     placeholder={'Tapez une commande...'}
                   />

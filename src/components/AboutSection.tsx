@@ -1,127 +1,123 @@
 import React from 'react';
-import Image from 'next/image';
-import { Code, Zap, FileCode, Bot } from 'lucide-react';
+import { Code, Zap, FileCode, Bot, ArrowRight, BookOpen, Briefcase } from 'lucide-react';
+import Link from 'next/link';
 
 const AboutSection = (): JSX.Element => {
   const skills = [
     {
-      icon: <Code className="about__card-icon" />,
+      icon: <Code />,
       title: "Développement Web",
-      description: "Frontend, Backend, Architecture"
+      description: "Frontend, Backend, Architecture",
+      size: "xl"
     },
     {
-      icon: <Zap className="about__card-icon" />,
+      icon: <Zap />,
       title: "Intelligence Artificielle",
-      description: "IA Générative, Automatisation"
+      description: "IA Générative, Automatisation",
+      size: "xl"
     },
     {
-      icon: <FileCode className="about__card-icon" />,
+      icon: <FileCode />,
       title: "SaaS & Logiciels",
-      description: "Solutions B2B"
+      description: "Solutions B2B",
+      size: "xl"
     },
     {
-      icon: <Bot className="about__card-icon" />,
+      icon: <Bot />,
       title: "Automatisation",
-      description: "Bots, Scripts, Workflows"
+      description: "Bots, Scripts, Workflows",
+      size: "xl"
     }
   ];
 
-  const tags = [
-    "Next.js",
-    "Angular",
-    "TypeScript",
-    "Laravel",
-    "Spring Boot",
-    "Docker",
-    "Python",
-    "IA Générative",
-    "UX/UI",
-    "CI/CD"
+  const technologies = [
+    { name: "Next.js", size: "md" },
+    { name: "Angular", size: "md" },
+    { name: "TypeScript", size: "md" },
+    { name: "Laravel", size: "md" },
+    { name: "Spring Boot", size: "md" },
+    { name: "Docker", size: "md" },
+    { name: "Python", size: "md" },
+    { name: "IA Générative", size: "md" },
+    { name: "UX/UI", size: "md" },
+    { name: "CI/CD", size: "md" }
   ];
 
   return (
-    <section className="about">
-      <div className="about__overlay"></div>
+    <section className="about" id="about">
       <div className="about__container">
-        <div className="about__grid">
-          <div className="about__image-wrapper">
-            <div className="about__image-container">
-              <Image
-                src="/images/tg-linkedin.webp"
-                alt="Portrait de Tanguy Gibrat"
-                className="about__image"
-                layout="fill"
-                objectFit="cover"
-              />
-              <div className="about__image-gradient-bottom"></div>
-              <div className="about__image-gradient-overlay"></div>
-              <div className="about__image-tint"></div>
-            </div>
-            <div className="about__badge about__badge--education">
-              <div className="about__badge-subtitle">
-                En formation à
+        <div className="about__content">
+          <div className="about__bio-wrapper">
+            <div className="about__bio">
+              <div className="about__bio-header">
+                <h3 className="about__bio-name">Tanguy Gibrat</h3>
+                <p className="about__bio-title">Développeur Web & Consultant en alternance</p>
               </div>
-              <div className="about__badge-title">
-                Epitech Marseille
+              
+              <div className="about__quote">
+                <p>La tech est un outil formidable pour résoudre des problèmes concrets et créer de la valeur tangible pour les entreprises.</p>
               </div>
-            </div>
-            <div className="about__badge about__badge--work">
-              <div className="about__badge-subtitle">
-                Consultant Solutions web chez
+              
+              <div className="about__bio-content">
+                <p>Étudiant à la Web@cadémie by Epitech, je développe des solutions digitales pour moderniser les processus métier et créer des applications à forte valeur ajoutée.</p>
+                <p>Polyvalent et curieux, je me spécialise dans le développement full-stack, l'IA générative et les SaaS qui répondent à des besoins business précis, avec une passion pour l'automatisation des processus répétitifs.</p>
               </div>
-              <div className="about__badge-title">
-                JLC Consulting
+              
+              <Link href="#portfolio" className="about__bio-link">
+                <span>Voir mes réalisations</span>
+                <ArrowRight size={16} />
+              </Link>
+            </div>
+            
+            <div className="about__credentials">
+              <div className="about__credential about__credential--education">
+                <div className="about__credential-icon">
+                  <BookOpen size={24} />
+                </div>
+                <div className="about__credential-content">
+                  <h4 className="about__credential-title">Formation</h4>
+                  <p className="about__credential-subtitle">Web@cadémie</p>
+                  <p className="about__credential-description">Epitech Marseille</p>
+                </div>
               </div>
-            </div>
-          </div>
-
-          <div className="about__content">
-            <div className="about__header">
-              <h2 className="about__title">
-                <span>Tanguy Gibrat</span>
-              </h2>
-              <p className="about__subtitle">
-                Développeur Web & Consultant en alternance
-              </p>
-            </div>
-
-            <blockquote className="about__quote">
-              "La tech est un outil formidable pour résoudre des problèmes concrets et créer de la valeur tangible pour les entreprises."
-            </blockquote>
-
-            <div className="about__description">
-              <p>
-                Étudiant à la Web@cadémie by Epitech, je suis actuellement Consultant en Solutions web en alternance où je travaille sur la modernisation d'un ERP et le développement de solutions digitales pour nos clients.
-              </p>
-              <p>
-                Polyvalent et curieux, je me spécialise dans le développement web full-stack, l'IA générative et la création de SaaS qui répondent à des besoins business précis. J'aime particulièrement automatiser des processus pour améliorer l'efficacité opérationnelle.
-              </p>
-              <p>
-                Ma double approche technique et business me permet de comprendre les enjeux métiers et de proposer des solutions sur mesure qui apportent une véritable valeur ajoutée.
-              </p>
+              
+              <div className="about__credential about__credential--work">
+                <div className="about__credential-icon">
+                  <Briefcase size={24} />
+                </div>
+                <div className="about__credential-content">
+                  <h4 className="about__credential-title">Poste actuel</h4>
+                  <p className="about__credential-subtitle">Consultant Solutions Web</p>
+                  <p className="about__credential-description">JLC Consulting</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-
-        <div className="about__skills-container">
-          <div className="about__cards">
+        
+        <div className="about__specialties">
+          <div className="about__skills-cloud">
             {skills.map((skill, index) => (
-              <div key={index} className="about__card">
-                <div className="about__card-content">
-                  {skill.icon}
-                  <div>
-                    <h3 className="about__card-title">{skill.title}</h3>
-                    <p className="about__card-description">{skill.description}</p>
-                  </div>
+              <div 
+                key={index} 
+                className={`about__skill-bubble about__skill-bubble--${skill.size}`}
+              >
+                <div className="about__skill-icon">{skill.icon}</div>
+                <div className="about__skill-content">
+                  <h4 className="about__skill-title">{skill.title}</h4>
+                  <p className="about__skill-description">{skill.description}</p>
                 </div>
               </div>
             ))}
           </div>
-
-          <div className="about__tags">
-            {tags.map((tag, index) => (
-              <span key={index} className="about__tag">
-                {tag}
+          
+          <div className="about__tech-cloud">
+            {technologies.map((tech, index) => (
+              <span 
+                key={index} 
+                className={`about__tech-tag about__tech-tag--${tech.size}`}
+              >
+                {tech.name}
               </span>
             ))}
           </div>

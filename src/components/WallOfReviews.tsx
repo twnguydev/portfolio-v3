@@ -1,6 +1,4 @@
-/* eslint-disable */
-
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Send } from 'lucide-react';
 
 interface Review {
@@ -28,93 +26,100 @@ const WallOfReviews = (): JSX.Element => {
   });
   const [cardSize, setCardSize] = useState<CardSize>({ width: 300, height: 200 });
   const wallRef = useRef<HTMLDivElement>(null);
+  const reviewsContainerRef = useRef<HTMLDivElement>(null);
 
-  // Met à jour les positions des cartes lors du redimensionnement
-  useEffect(() => {
-    const handleResize = () => {
-      if (wallRef.current) {
-        const newCardSize = {
-          width: Math.min(300, wallRef.current.offsetWidth * 0.8),
-          height: 200
-        };
-        setCardSize(newCardSize);
-        
-        // Recalcule les positions pour toutes les cartes
-        setReviews(prev => {
-          return prev.map(review => ({
-            ...review,
-            position: findValidPosition(newCardSize, prev.filter(r => r.id !== review.id))
-          }));
-        });
-      }
-    };
+  const findValidPosition = useCallback((size: CardSize, existingReviews: Review[]): { x: number; y: number } => {
+    if (!reviewsContainerRef.current) return { x: 0, y: 0 };
 
-    window.addEventListener('resize', handleResize);
-    handleResize(); // Initial call
+    const bounds = reviewsContainerRef.current.getBoundingClientRect();
+    const containerWidth = bounds.width;
+    const containerHeight = bounds.height;
 
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
+    if (containerWidth <= 0 || containerHeight <= 0) {
+      return { x: 20, y: 20 };
+    }
 
-  // Vérifie si une position est dans les limites du mur
-  const isWithinBounds = (pos: { x: number; y: number }, size: CardSize) => {
-    if (!wallRef.current) return false;
-    const bounds = wallRef.current.getBoundingClientRect();
-    return (
-      pos.x >= 0 &&
-      pos.x + size.width <= bounds.width &&
-      pos.y >= 0 &&
-      pos.y + size.height <= bounds.height
-    );
-  };
-
-  // Vérifie les chevauchements avec un padding
-  const isOverlapping = (
-    pos: { x: number; y: number },
-    size: CardSize,
-    existingReviews: Review[]
-  ) => {
-    const padding = 20; // Espace minimum entre les cartes
-    return existingReviews.some(review => {
-      const xOverlap = Math.abs(pos.x - review.position.x) < (size.width + padding);
-      const yOverlap = Math.abs(pos.y - review.position.y) < (size.height + padding);
-      return xOverlap && yOverlap;
-    });
-  };
-
-  // Trouve une position valide pour une nouvelle carte
-  const findValidPosition = (size: CardSize, existingReviews: Review[]): { x: number; y: number } => {
-    if (!wallRef.current) return { x: 0, y: 0 };
-
-    const bounds = wallRef.current.getBoundingClientRect();
-    const grid = 50; // Grille pour les positions possibles
+    const grid = 40;
+    const padding = 20;
     const positions: { x: number; y: number }[] = [];
 
-    // Génère toutes les positions possibles sur une grille
-    for (let x = 0; x <= bounds.width - size.width; x += grid) {
-      for (let y = 0; y <= bounds.height - size.height; y += grid) {
+    for (let x = padding; x <= containerWidth - size.width - padding; x += grid) {
+      for (let y = padding; y <= containerHeight - size.height - padding; y += grid) {
         positions.push({ x, y });
       }
     }
 
-    // Mélange les positions
-    const shuffledPositions = positions.sort(() => Math.random() - 0.5);
+    if (positions.length === 0) {
+      return { x: padding, y: padding };
+    }
 
-    // Trouve la première position valide
+    const shuffledPositions = [...positions].sort(() => Math.random() - 0.5);
+
+    const isOverlapping = (pos: { x: number; y: number }, existingReviews: Review[]) => {
+      return existingReviews.some(review => {
+        const xOverlap = Math.abs(pos.x - review.position.x) < (size.width + padding);
+        const yOverlap = Math.abs(pos.y - review.position.y) < (size.height + padding);
+        return xOverlap && yOverlap;
+      });
+    };
+
     for (const pos of shuffledPositions) {
-      if (!isOverlapping(pos, size, existingReviews)) {
+      if (!isOverlapping(pos, existingReviews)) {
         return pos;
       }
     }
 
-    // Si aucune position n'est trouvée, retourne une position par défaut
-    return { x: 0, y: 0 };
-  };
+    const posWithLeastOverlaps = shuffledPositions[0];
+    return posWithLeastOverlaps || { x: Math.random() * 50, y: Math.random() * 50 };
+  }, []);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (wallRef.current && reviewsContainerRef.current) {
+        const bounds = reviewsContainerRef.current.getBoundingClientRect();
+
+        const newCardSize = {
+          width: Math.min(300, bounds.width * 0.8),
+          height: 200
+        };
+        setCardSize(newCardSize);
+
+        if (Math.abs(bounds.width - previousWidth) > 50) {
+          setReviews(prev => {
+            const updatedReviews = [...prev];
+            return updatedReviews.map((review, index) => ({
+              ...review,
+              position: findValidPosition(
+                newCardSize, 
+                updatedReviews.slice(0, index)
+              )
+            }));
+          });
+          previousWidth = bounds.width;
+        }
+      }
+    };
+
+    let previousWidth = reviewsContainerRef.current?.getBoundingClientRect().width || 0;
+    const timeoutId = setTimeout(handleResize, 100);
+    
+    window.addEventListener('resize', handleResize);
+    
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      clearTimeout(timeoutId);
+    };
+  }, [findValidPosition]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!formData.firstName.trim() || !formData.lastName.trim() || !formData.company.trim() || !formData.content.trim()) {
+      return;
+    }
     
     const position = findValidPosition(cardSize, reviews);
-    const rotation = Math.random() * 4 - 2; // Rotation entre -2 et 2 degrés
+    const rotation = Math.random() * 4 - 2;
 
     const newReview: Review = {
       id: Date.now().toString(),
@@ -133,7 +138,7 @@ const WallOfReviews = (): JSX.Element => {
   };
 
   return (
-    <div className="wall">
+    <div className="wall" ref={wallRef}>
       <div className="wall__header">
         <h1 className="wall__title">
           Le mur des<br />
@@ -144,7 +149,7 @@ const WallOfReviews = (): JSX.Element => {
         </p>
       </div>
 
-      <div className="wall__content" ref={wallRef}>
+      <div className="wall__content">
         {/* Formulaire d'ajout */}
         <form className="wall__form" onSubmit={handleSubmit}>
           <div className="wall__form-grid">
@@ -205,14 +210,16 @@ const WallOfReviews = (): JSX.Element => {
           </button>
         </form>
 
-        {/* Mur d'avis */}
-        <div className="wall__reviews">
+        {/* Mur d'avis avec sa propre référence */}
+        <div className="wall__reviews" ref={reviewsContainerRef}>
           {reviews.map((review) => (
             <div
               key={review.id}
               className="wall__card"
               style={{
-                transform: `translate(${review.position.x}px, ${review.position.y}px) rotate(${review.rotation}deg)`
+                transform: `translate(${review.position.x}px, ${review.position.y}px) rotate(${review.rotation}deg)`,
+                width: `${cardSize.width}px`,
+                height: `${cardSize.height}px`
               }}
             >
               <div className="wall__card-content">
