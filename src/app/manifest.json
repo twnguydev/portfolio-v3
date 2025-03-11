@@ -1,69 +1,28 @@
 {
-  "name": "Portfolio - Tanguy Gibrat",
-  "short_name": "Portfolio",
-  "description": "Portfolio de Tanguy Gibrat, étudiant en développement web passionné par les technologies.",
+  "name": "Tanguy Gibrat | Développeur Full Stack & Consultant",
+  "short_name": "Tanguy Gibrat",
+  "description": "Portfolio de Tanguy Gibrat - Développeur Full Stack & Consultant",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#f9fafb",
-  "theme_color": "#1d4ed8",
-  "orientation": "portrait",
-  "splash_pages": null,
-  "prefer_related_applications": false,
-  "categories": ["portfolio", "personal", "development"],
+  "background_color": "#0A0A0A",
+  "theme_color": "#581c87",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "type": "image/x-icon",
+      "sizes": "16x16"
+    }
+  ],
   "screenshots": [
     {
-      "src": "/screenshots/home.png",
-      "sizes": "1280x720",
-      "type": "image/png",
-      "platform": "wide",
-      "label": "Page d'accueil du portfolio"
-    },
-    {
-      "src": "/screenshots/projects.png",
-      "sizes": "1280x720",
-      "type": "image/png",
-      "platform": "wide",
-      "label": "Section projets"
-    },
-    {
-      "src": "/screenshots/contact.png",
-      "sizes": "1280x720",
-      "type": "image/png",
-      "platform": "wide",
-      "label": "Section contact"
+      "src": "/images/screenshot.webp",
+      "type": "image/webp",
+      "sizes": "1280x720"
     }
   ],
-  "shortcuts": [
-    {
-      "name": "Voir mes projets",
-      "short_name": "Projets",
-      "description": "Accéder à la section des projets",
-      "url": "/#projects",
-      "icons": [{ "src": "/icons/projects.png", "sizes": "192x192" }]
-    },
-    {
-      "name": "Me contacter",
-      "short_name": "Contact",
-      "description": "Aller à la section contact",
-      "url": "/#contact",
-      "icons": [{ "src": "/icons/contact.png", "sizes": "192x192" }]
-    },
-    {
-      "name": "À propos de moi",
-      "short_name": "À propos",
-      "description": "Découvrir mon parcours et mes compétences",
-      "url": "/#about",
-      "icons": [{ "src": "/icons/about.png", "sizes": "192x192" }]
-    }
-  ],
-  "share_target": {
-    "action": "/share",
-    "method": "POST",
-    "enctype": "multipart/form-data",
-    "params": {
-      "title": "title",
-      "text": "text",
-      "url": "url"
-    }
-  }
+  "categories": ["portfolio", "development", "web"],
+  "lang": "fr-FR",
+  "dir": "ltr",
+  "scope": "/"
 }

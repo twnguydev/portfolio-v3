@@ -1,4 +1,4 @@
-// File: /Users/twnguy/Documents/W@C/W-PRO-260-MAR-3-1-portfoliotitre-tanguy.gibrat/src/app/page.tsx
+// File: /Users/twnguy/Documents/Github perso/portfolio-v3/src/app/page.tsx
 import * as entry from '../../../src/app/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

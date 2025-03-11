@@ -4,36 +4,40 @@ import "/public/styles/main.css";
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
-  maximumScale: 1,
+  maximumScale: 5, // Permet un zoom jusqu'à 5x pour l'accessibilité
   themeColor: '#581c87',
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://tanguygibrat.fr'),
+  metadataBase: new URL('https://tanguy-gibrat.fr'),
   title: {
-    default: "Tanguy Gibrat - Explorateur Tech",
+    default: "Tanguy Gibrat | Développeur Full Stack & Consultant",
     template: '%s | Tanguy Gibrat'
   },
-  description: "Étudiant passionné par le développement web. Je crée des solutions web innovantes et performantes.",
+  description: "Étudiant développeur Full Stack à la Web@cadémie by Epitech et consultant en alternance. Spécialisé en développement web, SaaS et automatisation.",
   keywords: [
     "développeur full stack",
-    "web development",
-    "react",
-    "angular",
-    "java",
-    "node.js",
-    "blockchain",
-    "business document",
-    "web design",
-    "devops",
-    "IA",
-    "développeur marseille",
-    "developpeur web",
-    "agence de développement",
-    "étudiant développeur",
-    "epitech"
+    "consultant développement web",
+    "front-end",
+    "back-end",
+    "React",
+    "Next.js",
+    "Angular",
+    "TypeScript",
+    "Laravel",
+    "Spring Boot",
+    "Java",
+    "Node.js",
+    "applications SaaS",
+    "automatisation",
+    "IA générative",
+    "solutions business",
+    "développeur Marseille",
+    "étudiant Epitech",
+    "Web@cadémie",
+    "portfolio développeur"
   ],
-  authors: [{ name: "Tanguy Gibrat" }],
+  authors: [{ name: "Tanguy Gibrat", url: "https://tanguy-gibrat.fr" }],
   creator: "Tanguy Gibrat",
   formatDetection: {
     email: false,
@@ -45,30 +49,55 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'fr_FR',
-    url: 'https://tanguygibrat.fr',
-    title: 'Tanguy Gibrat - Développeur web & Explorateur Tech',
-    description: 'Créateur d\'expériences web performantes et innovantes. Passionné par le développement, l\'IA et la blockchain.',
-    siteName: 'Tanguy Gibrat',
+    url: 'https://tanguy-gibrat.fr',
+    title: 'Tanguy Gibrat | Développeur Full Stack & Consultant',
+    description: 'Étudiant à la Web@cadémie by Epitech et consultant développeur en alternance. Spécialisé en développement web, SaaS et automatisation.',
+    siteName: 'Portfolio de Tanguy Gibrat',
     images: [{
-      url: '/og.png',
+      url: '/images/tg-linkedin.webp',
       width: 1200,
       height: 630,
-      alt: 'Tanguy Gibrat - Portfolio'
+      alt: 'Tanguy Gibrat - Portfolio de développeur web'
     }],
   },
 
   twitter: {
     card: 'summary_large_image',
-    title: 'Tanguy Gibrat - Développeur & Tech Explorer',
-    description: 'Full Stack, IA, Blockchain - Créateur d\'expériences web',
-    creator: '@tanguygibrat',
-    images: ['/og.png'],
+    title: 'Tanguy Gibrat | Développeur Full Stack & Consultant',
+    description: 'Étudiant à la Web@cadémie by Epitech et consultant développeur en alternance. Spécialités : web, SaaS, automatisation.',
+    creator: '@tanguy-gibrat',
+    images: ['/images/tg-linkedin.webp'],
   },
 
   icons: {
-    icon: '/favicon.ico',
+    icon: [
+      { url: '/favicon.ico', sizes: 'any' }
+    ],
+    apple: [
+      { url: '/apple-icon.png', sizes: '180x180' }
+    ],
+    shortcut: [{ url: '/favicon.ico' }]
   },
   manifest: '/manifest.json',
+  
+  alternates: {
+    canonical: 'https://tanguy-gibrat.fr',
+    languages: {
+      'fr-FR': 'https://tanguy-gibrat.fr'
+    }
+  },
+  
+  robots: {
+    index: true,
+    follow: true,
+    nocache: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    }
+  }
 };
 
 export default function RootLayout({
@@ -91,24 +120,26 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "Person",
               "name": "Tanguy Gibrat",
-              "url": "https://tanguy-gibrat.dev",
-              "image": "/og.png",
-              "description": "Étudiant développeur Full Stack à Epitech Marseille",
-              "jobTitle": "Développeur Full Stack",
+              "url": "https://tanguy-gibrat.fr",
+              "image": "https://tanguy-gibrat.fr/images/tg-linkedin.webp",
+              "description": "Étudiant développeur Full Stack à la Web@cadémie by Epitech et consultant en alternance",
+              "jobTitle": "Développeur Full Stack & Consultant",
               "worksFor": {
                 "@type": "Organization",
-                "name": "Epitech"
+                "name": "JLC Consulting"
               },
               "alumniOf": {
                 "@type": "Organization",
-                "name": "Epitech"
+                "name": "Web@cadémie by Epitech Marseille"
               },
               "knowsAbout": [
-                "Web Development",
-                "React",
-                "Node.js",
-                "Artificial Intelligence",
-                "Blockchain"
+                "Développement Web Full Stack",
+                "React et Next.js",
+                "Angular et TypeScript",
+                "Laravel et Spring Boot",
+                "Applications SaaS",
+                "IA Générative",
+                "Automatisation"
               ],
               "sameAs": [
                 "https://github.com/twnguydev",
@@ -117,6 +148,93 @@ export default function RootLayout({
             })
           }}
         />
+
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "ItemList",
+              "itemListElement": [
+                {
+                  "@type": "ListItem",
+                  "position": 1,
+                  "item": {
+                    "@type": "Course",
+                    "name": "Développement Web Frontend",
+                    "description": "React, Next.js, Angular, TypeScript",
+                    "provider": {
+                      "@type": "Organization",
+                      "name": "Web@cadémie by Epitech"
+                    }
+                  }
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 2,
+                  "item": {
+                    "@type": "Course",
+                    "name": "Développement Web Backend",
+                    "description": "Laravel, Spring Boot, Node.js, APIs RESTful",
+                    "provider": {
+                      "@type": "Organization",
+                      "name": "Web@cadémie by Epitech"
+                    }
+                  }
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 3,
+                  "item": {
+                    "@type": "Course",
+                    "name": "DevOps",
+                    "description": "Docker, CI/CD, Git",
+                    "provider": {
+                      "@type": "Organization",
+                      "name": "Web@cadémie by Epitech"
+                    }
+                  }
+                }
+              ]
+            })
+          }}
+        />
+        
+        {/* ProjectsStructuredData */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "ItemList",
+              "itemListElement": [
+                {
+                  "@type": "ListItem",
+                  "position": 1,
+                  "item": {
+                    "@type": "SoftwareApplication",
+                    "name": "Modernisation ERP",
+                    "applicationCategory": "BusinessApplication",
+                    "operatingSystem": "Web",
+                    "description": "Migration d'une architecture monolithique vers Laravel API / Angular avec Docker et CI/CD"
+                  }
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 2,
+                  "item": {
+                    "@type": "SoftwareApplication",
+                    "name": "SaaS Workflow Optimizer",
+                    "applicationCategory": "BusinessApplication",
+                    "operatingSystem": "Web",
+                    "description": "Plateforme de simulation et d'optimisation de workflows business"
+                  }
+                },
+              ]
+            })
+          }}
+        />
+        
         {children}
       </body>
     </html>
