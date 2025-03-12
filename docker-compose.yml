@@ -3,6 +3,14 @@ services:
   portfolio:
     container_name: portfolio
     build: .
+    env_file: .env
+    environment:
+      - EMAIL_HOST=${EMAIL_HOST}
+      - EMAIL_PORT=${EMAIL_PORT}
+      - EMAIL_USER=${EMAIL_USER}
+      - EMAIL_PASSWORD=${EMAIL_PASSWORD}
+      - EMAIL_FROM=${EMAIL_FROM}
+      - EMAIL_TO=${EMAIL_TO}
     ports:
       - "3000:3000"
     restart: always

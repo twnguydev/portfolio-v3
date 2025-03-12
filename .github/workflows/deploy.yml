@@ -13,14 +13,9 @@ jobs:
     - name: Cloner le repo
       uses: actions/checkout@v3
 
-    - name: Copier les fichiers via SSH
-      uses: appleboy/scp-action@master
-      with:
-        host: ${{ secrets.VPS_HOST }}
-        username: ${{ secrets.VPS_USER }}
-        key: ${{ secrets.SSH_PRIVATE_KEY }}
-        source: "."
-        target: "/home/tanguy/apps/portfolio"
+    - name: Déployer avec rsync via SSH
+      run: |
+        rsync -avz --exclude='.env' -e "ssh -o StrictHostKeyChecking=no -i ${{ secrets.SSH_PRIVATE_KEY }}" . ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:/home/tanguy/apps/portfolio
 
     - name: Lancer le conteneur Docker
       uses: appleboy/ssh-action@master
