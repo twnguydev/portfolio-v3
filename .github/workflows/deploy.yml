@@ -15,7 +15,10 @@ jobs:
 
     - name: Déployer avec rsync via SSH
       run: |
-        rsync -avz --exclude='.env' -e "ssh -o StrictHostKeyChecking=no -i ${{ secrets.SSH_PRIVATE_KEY }}" . ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:/home/tanguy/apps/portfolio
+        echo "${{ secrets.SSH_PRIVATE_KEY }}" > private_key
+        chmod 600 private_key
+        rsync -avz --exclude='.env' -e "ssh -o StrictHostKeyChecking=no -i private_key" . ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:/home/tanguy/apps/portfolio
+        rm -f private_key
 
     - name: Lancer le conteneur Docker
       uses: appleboy/ssh-action@master
