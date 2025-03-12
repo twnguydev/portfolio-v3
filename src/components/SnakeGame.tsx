@@ -24,7 +24,7 @@ const SnakeGame: React.FC<SnakeGameProps> = ({
 }) => {
   const width = 15;
   const height = 10;
-  const speed = 200;
+  const speed = 250;
   
   const [snake, setSnake] = useState<Point[]>([{ x: 5, y: 5 }]);
   const [food, setFood] = useState<Point>({ x: 10, y: 5 });
