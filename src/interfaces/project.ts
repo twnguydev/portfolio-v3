@@ -9,6 +9,7 @@ export interface Skill {
   category: SkillCategory;
   rncpSkillIds?: string[];
   rncpReference?: string;
+  _processedDescriptions?: string[];
 }
 
 export interface Project {

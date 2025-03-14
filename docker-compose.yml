@@ -5,12 +5,23 @@ services:
     build: .
     env_file: .env
     environment:
+      - NODE_ENV=${NODE_ENV}
+      - ADMIN_API_KEY=${ADMIN_API_KEY}
       - EMAIL_HOST=${EMAIL_HOST}
       - EMAIL_PORT=${EMAIL_PORT}
       - EMAIL_USER=${EMAIL_USER}
       - EMAIL_PASSWORD=${EMAIL_PASSWORD}
       - EMAIL_FROM=${EMAIL_FROM}
       - EMAIL_TO=${EMAIL_TO}
+      - WEBHOOK_SECRET=${WEBHOOK_SECRET}
+      - GITHUB_TOKEN=${GITHUB_TOKEN}
+      - GITHUB_CRON_SCHEDULE=${GITHUB_CRON_SCHEDULE}
+      - RUN_GITHUB_JOB_ON_STARTUP=${RUN_GITHUB_JOB_ON_STARTUP}
     ports:
       - "3000:3000"
     restart: always
+    volumes:
+      - portfolio-data:/app/data
+
+volumes:
+  portfolio-data:

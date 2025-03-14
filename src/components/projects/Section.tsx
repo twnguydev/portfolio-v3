@@ -2,10 +2,10 @@ import React, { useEffect, useState, useCallback, useMemo, Suspense, lazy } from
 import { Backpack, Briefcase, Award } from 'lucide-react';
 import { projectsData } from '@/data/projects';
 import { Project } from '@/interfaces/project';
-import { ProjectCard } from '@/components/projects/Card';
+import { ProjectCard } from '@/components/projects/project-card';
 
-const ProjectModal = lazy(() => import('./Modal').then(mod => ({ default: mod.ProjectModal })));
-const SkillsProgressModal = lazy(() => import('./SkillsProgressModal'));
+const ProjectModal = lazy(() => import('./project-modal').then(mod => ({ default: mod.ProjectModal })));
+const SkillsProgressModal = lazy(() => import('./skills-progress-modal'));
 
 const Loader = (): JSX.Element => (
   <div className="projects__loader">

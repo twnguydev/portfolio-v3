@@ -1,0 +1,34 @@
+{
+  "title": "Portfolio",
+  "shortDescription": "Création d'un portfolio personnel pour présenter mes compétences et mes projets.",
+  "description": "Ce portfolio a été créé pour présenter mes compétences et mes projets. Il a été développé avec Next.js, React et TypeScript. Il récupère automatiquement les articles de blog et les projets depuis un fichier JSON sur chacun de mes projets GitHub. Il est également possible de générer un sitemap automatiquement.",
+  "images": [
+    "/images/projects/portfolio.webp"
+  ],
+  "tags": ["Next.js", "Tailwind", "TypeScript"],
+  "gradient": "amber-yellow",
+  "type": "school",
+  "sourceUrl": "https://github.com/twnguydev/portfolio-v3",
+  "skills": [
+    {
+      "name": "Compréhension du projet et cadrage",
+      "descriptions": [
+        "getDescriptionById('RNCP01-3')",
+        "getDescriptionById('RNCP01-5')"
+      ],
+      "category": "Management",
+      "rncpSkillIds": ["RNCP01-3", "RNCP01-5"],
+      "rncpReference": "RNCP38436BC01 - Cadrer un projet et conceptualiser une solution web"
+    },
+    {
+      "name": "Conception de l'interface utilisateur",
+      "descriptions": [
+        "getDescriptionById('RNCP02-4')",
+        "getDescriptionById('RNCP02-5')"
+      ],
+      "category": "Développement",
+      "rncpSkillIds": ["RNCP02-4", "RNCP02-5"],
+      "rncpReference": "RNCP38436BC02 - Développer une solution web"
+    }
+  ]
+}
