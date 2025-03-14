@@ -1,5 +1,3 @@
-import { Project } from "@/interfaces/project";
-
 export interface RNCPSkill {
   id: string;
   bloc: string;
