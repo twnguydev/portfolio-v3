@@ -40,4 +40,4 @@ RUN chown -R node:node /app/data
 
 EXPOSE 3000
 
-CMD ["npm", "run", "start"]
+CMD ["node", "server.js"]
