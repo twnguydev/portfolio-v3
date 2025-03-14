@@ -1,8 +1,14 @@
 {
-  "components/ProjectSection.tsx -> ./ProjectModal": {
-    "id": "components/ProjectSection.tsx -> ./ProjectModal",
+  "components/projects/Section.tsx -> ./Modal": {
+    "id": "components/projects/Section.tsx -> ./Modal",
     "files": [
-      "static/chunks/_app-pages-browser_src_components_ProjectModal_tsx.js"
+      "static/chunks/_app-pages-browser_src_components_projects_Modal_tsx.js"
+    ]
+  },
+  "components/projects/Section.tsx -> ./SkillsProgressModal": {
+    "id": "components/projects/Section.tsx -> ./SkillsProgressModal",
+    "files": [
+      "static/chunks/_app-pages-browser_src_components_projects_SkillsProgressModal_tsx.js"
     ]
   }
 }

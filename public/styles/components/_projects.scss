@@ -69,7 +69,7 @@
     min-height: 300px;
     width: 100%;
     margin: 3rem 0;
-    
+
     &-spinner {
       width: 50px;
       height: 50px;
@@ -79,10 +79,71 @@
       animation: spin 1s ease-in-out infinite;
       margin-bottom: 1rem;
     }
-    
+
     &-text {
       color: rgb(var(--color-gray-300-rgb));
       font-size: 0.875rem;
+    }
+  }
+
+  // Nouveaux filtres de type (pro/école)
+  &__type-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    margin-bottom: 2rem;
+  }
+
+  &__type-filter {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.25rem;
+    border-radius: 9999px;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: rgb(var(--color-gray-300-rgb));
+    background: rgba(var(--color-white-rgb), 0.05);
+    border: 1px solid rgba(var(--color-white-rgb), 0.1);
+    transition: all var(--transition-fast);
+    backdrop-filter: blur(var(--blur-sm));
+
+    svg {
+      width: 1rem;
+      height: 1rem;
+    }
+
+    &:hover {
+      background: rgba(var(--color-white-rgb), 0.1);
+      color: var(--color-white);
+      transform: translateY(-1px);
+    }
+
+    &.active {
+      background: var(--gradient-purple-pink);
+      border-color: transparent;
+      color: var(--color-white);
+    }
+  }
+
+  &__no-results {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+    width: 100%;
+    background: rgba(var(--color-white-rgb), 0.05);
+    border-radius: 1rem;
+    border: 1px solid rgba(var(--color-white-rgb), 0.1);
+    padding: 2rem;
+    text-align: center;
+
+    p {
+      color: rgb(var(--color-gray-300-rgb));
+      font-size: 1rem;
+      margin-top: 1rem;
     }
   }
 
@@ -217,33 +278,114 @@
       cursor: default;
     }
 
-    &--html { background: linear-gradient(to right, #E44D26, #F16529); }
-    &--css { background: linear-gradient(to right, #264DE4, #2965F1); }
-    &--scss { background: linear-gradient(to right, #CD6799, #BE4B80); }
-    &--typescript { background: linear-gradient(to right, #3178C6, #235A97); }
-    &--php { background: linear-gradient(to right, #777BB3, #4F5B93); }
-    &--mysql { background: linear-gradient(to right, #00758F, #00758F); }
-    &--spring-boot { background: linear-gradient(to right, #6DB33F, #6DB33F); }
-    &--react { background: linear-gradient(to right, #61DAFB, #00B4D8); }
-    &--nextjs { background: #000000; }
-    &--vue { background: linear-gradient(to right, #41B883, #34495E); }
-    &--angular { background: linear-gradient(to right, #DD0031, #C3002F); }
-    &--typescript { background: linear-gradient(to right, #007ACC, #2F74C0); }
-    &--javascript { background: linear-gradient(to right, #F7DF1E, #F0DB4F); color: #000; }
-    &--tailwind { background: linear-gradient(to right, #38BDF8, #0EA5E9); }
-    &--sass { background: linear-gradient(to right, #CD6799, #BE4B80); }
-    &--nodejs { background: linear-gradient(to right, #539E43, #76B366); }
-    &--python { background: linear-gradient(to right, #306998, #306998); }
-    &--django { background: linear-gradient(to right, #092E20, #103E2E); }
-    &--fastapi { background: linear-gradient(to right, #009688, #00B8A9); }
-    &--express { background: linear-gradient(to right, #444444, #333333); }
-    &--mongodb { background: linear-gradient(to right, #449E48, #3F9142); }
-    &--postgresql { background: linear-gradient(to right, #336791, #2F5E8D); }
-    &--docker { background: linear-gradient(to right, #2496ED, #1D73E8); }
-    &--kubernetes { background: linear-gradient(to right, #326CE5, #2951C4); }
-    &--aws { background: linear-gradient(to right, #FF9900, #EC7211); }
-    &--gcp { background: linear-gradient(to right, #4285F4, #34A853, #FBBC05, #EA4335); }
-    &--azure { background: linear-gradient(to right, #0078D4, #0062AD); }
+    &--html {
+      background: linear-gradient(to right, #E44D26, #F16529);
+    }
+
+    &--css {
+      background: linear-gradient(to right, #264DE4, #2965F1);
+    }
+
+    &--scss {
+      background: linear-gradient(to right, #CD6799, #BE4B80);
+    }
+
+    &--typescript {
+      background: linear-gradient(to right, #3178C6, #235A97);
+    }
+
+    &--php {
+      background: linear-gradient(to right, #777BB3, #4F5B93);
+    }
+
+    &--mysql {
+      background: linear-gradient(to right, #00758F, #00758F);
+    }
+
+    &--spring-boot {
+      background: linear-gradient(to right, #6DB33F, #6DB33F);
+    }
+
+    &--react {
+      background: linear-gradient(to right, #61DAFB, #00B4D8);
+    }
+
+    &--nextjs {
+      background: #000000;
+    }
+
+    &--vue {
+      background: linear-gradient(to right, #41B883, #34495E);
+    }
+
+    &--angular {
+      background: linear-gradient(to right, #DD0031, #C3002F);
+    }
+
+    &--typescript {
+      background: linear-gradient(to right, #007ACC, #2F74C0);
+    }
+
+    &--javascript {
+      background: linear-gradient(to right, #F7DF1E, #F0DB4F);
+      color: #000;
+    }
+
+    &--tailwind {
+      background: linear-gradient(to right, #38BDF8, #0EA5E9);
+    }
+
+    &--sass {
+      background: linear-gradient(to right, #CD6799, #BE4B80);
+    }
+
+    &--nodejs {
+      background: linear-gradient(to right, #539E43, #76B366);
+    }
+
+    &--python {
+      background: linear-gradient(to right, #306998, #306998);
+    }
+
+    &--django {
+      background: linear-gradient(to right, #092E20, #103E2E);
+    }
+
+    &--fastapi {
+      background: linear-gradient(to right, #009688, #00B8A9);
+    }
+
+    &--express {
+      background: linear-gradient(to right, #444444, #333333);
+    }
+
+    &--mongodb {
+      background: linear-gradient(to right, #449E48, #3F9142);
+    }
+
+    &--postgresql {
+      background: linear-gradient(to right, #336791, #2F5E8D);
+    }
+
+    &--docker {
+      background: linear-gradient(to right, #2496ED, #1D73E8);
+    }
+
+    &--kubernetes {
+      background: linear-gradient(to right, #326CE5, #2951C4);
+    }
+
+    &--aws {
+      background: linear-gradient(to right, #FF9900, #EC7211);
+    }
+
+    &--gcp {
+      background: linear-gradient(to right, #4285F4, #34A853, #FBBC05, #EA4335);
+    }
+
+    &--azure {
+      background: linear-gradient(to right, #0078D4, #0062AD);
+    }
   }
 
   &__badges {
@@ -275,7 +417,7 @@
       height: 0.875rem;
     }
 
-    &--ai {
+    &--ia {
       background: linear-gradient(45deg,
           rgba(var(--color-emerald-500-rgb), 0.9),
           rgba(var(--color-teal-500-rgb), 0.9));
@@ -314,6 +456,27 @@
         animation: rocket 2s ease-in-out infinite;
       }
     }
+
+    // Nouveaux badges pour école/pro
+    &--professional {
+      background: linear-gradient(45deg,
+          rgba(var(--color-blue-400-rgb), 0.9),
+          rgba(var(--color-blue-500-rgb), 0.9));
+
+      .projects__badge-icon {
+        animation: pulse 2s ease-in-out infinite;
+      }
+    }
+
+    &--school {
+      background: linear-gradient(45deg,
+          rgba(var(--color-orange-400-rgb), 0.9),
+          rgba(var(--color-amber-500-rgb), 0.9));
+
+      .projects__badge-icon {
+        animation: pulse 2s ease-in-out infinite;
+      }
+    }
   }
 
   &__filters {
@@ -322,6 +485,10 @@
     gap: 0.75rem;
     justify-content: center;
     margin-bottom: 3rem;
+
+    @media (max-width: map.get($breakpoints, 'md')) {
+      display: none;
+    }
   }
 
   &__filter {
@@ -343,6 +510,56 @@
       background: var(--gradient-purple-pink);
       border-color: transparent;
       color: var(--color-white);
+    }
+  }
+
+  &__rncp-button-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
+  }
+
+  &__rncp-button {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: 9999px;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    background: linear-gradient(to right, rgba(var(--color-purple-500-rgb), 0.8), rgba(var(--color-pink-500-rgb), 0.8));
+    color: var(--color-white);
+    box-shadow: 0 4px 12px rgba(var(--color-purple-500-rgb), 0.3);
+    transition: all var(--transition-fast);
+    border: none;
+    position: relative;
+    overflow: hidden;
+
+    &:before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to right, rgba(var(--color-purple-500-rgb), 0.5), rgba(var(--color-pink-500-rgb), 0.5));
+      opacity: 0;
+      transition: opacity var(--transition-fast);
+    }
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(var(--color-purple-500-rgb), 0.4);
+
+      &:before {
+        opacity: 1;
+      }
+    }
+
+    &:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 8px rgba(var(--color-purple-500-rgb), 0.3);
+    }
+
+    svg {
+      animation: pulse 2s infinite;
     }
   }
 }
@@ -374,22 +591,22 @@
     -webkit-overflow-scrolling: touch;
     mask-image: radial-gradient(circle at center, white 100%, black 100%);
     -webkit-mask-image: -webkit-radial-gradient(circle, white 100%, black 100%);
-  
+
     &::-webkit-scrollbar {
       width: 8px;
     }
-    
+
     &::-webkit-scrollbar-track {
       background: rgba(var(--color-white-rgb), 0.1);
       border-radius: 4px;
     }
-    
+
     &::-webkit-scrollbar-thumb {
       background: rgba(var(--color-purple-600-rgb), 0.5);
       border-radius: 4px;
       border: 1px solid transparent;
       background-clip: padding-box;
-      
+
       &:hover {
         background: rgba(var(--color-purple-600-rgb), 0.7);
       }
@@ -514,7 +731,7 @@
     font-size: 0.875rem;
     font-weight: 500;
     transition: all var(--transition-fast);
-    
+
     svg {
       width: 1.125rem;
       height: 1.125rem;
@@ -578,33 +795,114 @@
       opacity: 0.9;
     }
 
-    &--html { background: linear-gradient(to right, #E44D26, #F16529); }
-    &--css { background: linear-gradient(to right, #264DE4, #2965F1); }
-    &--scss { background: linear-gradient(to right, #CD6799, #BE4B80); }
-    &--typescript { background: linear-gradient(to right, #3178C6, #235A97); }
-    &--php { background: linear-gradient(to right, #777BB3, #4F5B93); }
-    &--mysql { background: linear-gradient(to right, #00758F, #00758F); }
-    &--spring-boot { background: linear-gradient(to right, #6DB33F, #6DB33F); }
-    &--react { background: linear-gradient(to right, #61DAFB, #00B4D8); }
-    &--nextjs { background: #000000; }
-    &--vue { background: linear-gradient(to right, #41B883, #34495E); }
-    &--angular { background: linear-gradient(to right, #DD0031, #C3002F); }
-    &--typescript { background: linear-gradient(to right, #007ACC, #2F74C0); }
-    &--javascript { background: linear-gradient(to right, #F7DF1E, #F0DB4F); color: #000; }
-    &--tailwind { background: linear-gradient(to right, #38BDF8, #0EA5E9); }
-    &--sass { background: linear-gradient(to right, #CD6799, #BE4B80); }
-    &--nodejs { background: linear-gradient(to right, #539E43, #76B366); }
-    &--python { background: linear-gradient(to right, #306998, #306998); }
-    &--django { background: linear-gradient(to right, #092E20, #103E2E); }
-    &--fastapi { background: linear-gradient(to right, #009688, #00B8A9); }
-    &--express { background: linear-gradient(to right, #444444, #333333); }
-    &--mongodb { background: linear-gradient(to right, #449E48, #3F9142); }
-    &--postgresql { background: linear-gradient(to right, #336791, #2F5E8D); }
-    &--docker { background: linear-gradient(to right, #2496ED, #1D73E8); }
-    &--kubernetes { background: linear-gradient(to right, #326CE5, #2951C4); }
-    &--aws { background: linear-gradient(to right, #FF9900, #EC7211); }
-    &--gcp { background: linear-gradient(to right, #4285F4, #34A853, #FBBC05, #EA4335); }
-    &--azure { background: linear-gradient(to right, #0078D4, #0062AD); }
+    &--html {
+      background: linear-gradient(to right, #E44D26, #F16529);
+    }
+
+    &--css {
+      background: linear-gradient(to right, #264DE4, #2965F1);
+    }
+
+    &--scss {
+      background: linear-gradient(to right, #CD6799, #BE4B80);
+    }
+
+    &--typescript {
+      background: linear-gradient(to right, #3178C6, #235A97);
+    }
+
+    &--php {
+      background: linear-gradient(to right, #777BB3, #4F5B93);
+    }
+
+    &--mysql {
+      background: linear-gradient(to right, #00758F, #00758F);
+    }
+
+    &--spring-boot {
+      background: linear-gradient(to right, #6DB33F, #6DB33F);
+    }
+
+    &--react {
+      background: linear-gradient(to right, #61DAFB, #00B4D8);
+    }
+
+    &--nextjs {
+      background: #000000;
+    }
+
+    &--vue {
+      background: linear-gradient(to right, #41B883, #34495E);
+    }
+
+    &--angular {
+      background: linear-gradient(to right, #DD0031, #C3002F);
+    }
+
+    &--typescript {
+      background: linear-gradient(to right, #007ACC, #2F74C0);
+    }
+
+    &--javascript {
+      background: linear-gradient(to right, #F7DF1E, #F0DB4F);
+      color: #000;
+    }
+
+    &--tailwind {
+      background: linear-gradient(to right, #38BDF8, #0EA5E9);
+    }
+
+    &--sass {
+      background: linear-gradient(to right, #CD6799, #BE4B80);
+    }
+
+    &--nodejs {
+      background: linear-gradient(to right, #539E43, #76B366);
+    }
+
+    &--python {
+      background: linear-gradient(to right, #306998, #306998);
+    }
+
+    &--django {
+      background: linear-gradient(to right, #092E20, #103E2E);
+    }
+
+    &--fastapi {
+      background: linear-gradient(to right, #009688, #00B8A9);
+    }
+
+    &--express {
+      background: linear-gradient(to right, #444444, #333333);
+    }
+
+    &--mongodb {
+      background: linear-gradient(to right, #449E48, #3F9142);
+    }
+
+    &--postgresql {
+      background: linear-gradient(to right, #336791, #2F5E8D);
+    }
+
+    &--docker {
+      background: linear-gradient(to right, #2496ED, #1D73E8);
+    }
+
+    &--kubernetes {
+      background: linear-gradient(to right, #326CE5, #2951C4);
+    }
+
+    &--aws {
+      background: linear-gradient(to right, #FF9900, #EC7211);
+    }
+
+    &--gcp {
+      background: linear-gradient(to right, #4285F4, #34A853, #FBBC05, #EA4335);
+    }
+
+    &--azure {
+      background: linear-gradient(to right, #0078D4, #0062AD);
+    }
   }
 
   &__content {
@@ -684,7 +982,7 @@
 
     &-list {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
       gap: 1.5rem;
 
       @media (max-width: map.get($breakpoints, 'md')) {
@@ -705,11 +1003,17 @@
       background: rgba(var(--color-white-rgb), 0.08);
     }
 
+    &-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.75rem;
+    }
+
     &-title {
       font-size: 1rem;
       font-weight: 600;
       color: var(--color-white);
-      margin-bottom: 0.75rem;
       display: flex;
       align-items: center;
       gap: 0.5rem;
@@ -724,19 +1028,129 @@
       }
     }
 
+    &-tooltip {
+      &-container {
+        position: relative;
+      }
+
+      &-trigger {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 1.5rem;
+        height: 1.5rem;
+        border-radius: 50%;
+        background-color: rgba(var(--color-white-rgb), 0.1);
+        color: rgb(var(--color-gray-300-rgb));
+        border: none;
+        cursor: help;
+        transition: all var(--transition-fast);
+
+        &:hover {
+          background-color: rgba(var(--color-white-rgb), 0.2);
+          color: var(--color-white);
+        }
+      }
+
+      &-trigger svg {
+        width: 1rem;
+        height: 1rem;
+      }
+
+      & {
+        position: absolute;
+        z-index: 10;
+        top: -0.5rem;
+        right: 1.75rem;
+        padding: 0.75rem;
+        border-radius: 0.5rem;
+        background-color: rgba(var(--color-black-rgb), 0.9);
+        border: 1px solid rgba(var(--color-white-rgb), 0.1);
+        width: max-content;
+        max-width: 15rem;
+        font-size: 0.75rem;
+        line-height: 1.4;
+        color: var(--color-white);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(var(--blur-sm));
+        animation: fadeIn 0.2s ease-out;
+
+        &::after {
+          content: '';
+          position: absolute;
+          right: -0.375rem;
+          top: 1rem;
+          width: 0.75rem;
+          height: 0.75rem;
+          background-color: rgba(var(--color-black-rgb), 0.9);
+          border-right: 1px solid rgba(var(--color-white-rgb), 0.1);
+          border-bottom: 1px solid rgba(var(--color-white-rgb), 0.1);
+          transform: rotate(-45deg);
+        }
+
+        @media (max-width: map.get($breakpoints, 'md')) {
+          right: 0;
+          left: 50%;
+          transform: translateX(-50%) translateY(-100%);
+
+          &::after {
+            right: auto;
+            left: 50%;
+            top: 100%;
+            transform: translateX(-50%) rotate(45deg);
+            margin-top: -0.375rem;
+          }
+        }
+
+        p {
+          margin: 0;
+          color: rgb(var(--color-gray-100-rgb));
+        }
+      }
+    }
+
     &-description {
       color: rgb(var(--color-gray-300-rgb));
       font-size: 0.875rem;
       line-height: 1.6;
     }
+
+    &-descriptions-list {
+      list-style-type: disc;
+      padding-left: 1.5rem;
+      margin-top: 0.5rem;
+      color: rgb(var(--color-gray-300-rgb));
+      font-size: 0.875rem;
+      line-height: 1.6;
+    }
+
+    &-description-item {
+      margin-bottom: 0.5rem;
+      position: relative;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      &::before {
+        content: '';
+        position: absolute;
+        left: -1rem;
+        top: 0.5rem;
+        width: 0.375rem;
+        height: 0.375rem;
+        border-radius: 50%;
+        background: var(--color-purple-400);
+      }
+    }
   }
 
   // Catégories spécifiques
-  &__skill[data-category="Backend"] {
+  &__skill[data-category="Back-end"] {
     border-left: 3px solid var(--color-blue-500);
   }
 
-  &__skill[data-category="Frontend"] {
+  &__skill[data-category="Front-end"] {
     border-left: 3px solid var(--color-purple-500);
   }
 
@@ -805,10 +1219,13 @@
 }
 
 @keyframes pulse {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: scale(1);
     opacity: 1;
   }
+
   50% {
     transform: scale(1.1);
     opacity: 0.8;

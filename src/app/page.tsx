@@ -5,7 +5,7 @@ import Header from '@/components/Header';
 import HeroSection from '@/components/HeroSection';
 import AboutSection from '@/components/AboutSection';
 import StatsSection from '@/components/StatsSection';
-import ProjectSection from '@/components/ProjectSection';
+import ProjectSection from '@/components/projects/Section';
 import ProgressionSection from '@/components/ProgressionSection';
 import AdvantageSection from '@/components/AdvantageSection';
 import TechStackSection from '@/components/TechStackSection';
@@ -19,7 +19,7 @@ const Portfolio = (): JSX.Element => {
       <Header />
       <HeroSection />
       <AboutSection />
-      <StatsSection />
+      {/* <StatsSection /> */}
       <ProjectSection />
       <ProgressionSection />
       <AdvantageSection />

@@ -7,13 +7,13 @@ const AboutSection = (): JSX.Element => {
     {
       icon: <Code />,
       title: "Développement Web",
-      description: "Frontend, Backend, Architecture",
+      description: "Front-end, Back-end, Architecture, Base de données",
       size: "xl"
     },
     {
       icon: <Zap />,
-      title: "Intelligence Artificielle",
-      description: "IA Générative, Automatisation",
+      title: "Admin Système",
+      description: "DevOps, CI/CD, Serveur, Docker",
       size: "xl"
     },
     {
@@ -53,22 +53,22 @@ const AboutSection = (): JSX.Element => {
                 <h3 className="about__bio-name">Tanguy Gibrat</h3>
                 <p className="about__bio-title">Développeur Web & Consultant en alternance</p>
               </div>
-              
+
               <div className="about__quote">
                 <p>La tech est un outil formidable pour résoudre des problèmes concrets et créer de la valeur tangible pour les entreprises.</p>
               </div>
-              
+
               <div className="about__bio-content">
                 <p>Étudiant à la Web@cadémie by Epitech, je développe des solutions digitales pour moderniser les processus métier et créer des applications à forte valeur ajoutée.</p>
                 <p>Polyvalent et curieux, je me spécialise dans le développement full-stack, l'IA générative et les SaaS qui répondent à des besoins business précis, avec une passion pour l'automatisation des processus répétitifs.</p>
               </div>
-              
+
               <Link href="#portfolio" className="about__bio-link">
                 <span>Voir mes réalisations</span>
                 <ArrowRight size={16} />
               </Link>
             </div>
-            
+
             <div className="about__credentials">
               <div className="about__credential about__credential--education">
                 <div className="about__credential-icon">
@@ -80,7 +80,7 @@ const AboutSection = (): JSX.Element => {
                   <p className="about__credential-description">Epitech Marseille</p>
                 </div>
               </div>
-              
+
               <div className="about__credential about__credential--work">
                 <div className="about__credential-icon">
                   <Briefcase size={24} />
@@ -94,12 +94,12 @@ const AboutSection = (): JSX.Element => {
             </div>
           </div>
         </div>
-        
+
         <div className="about__specialties">
           <div className="about__skills-cloud">
             {skills.map((skill, index) => (
-              <div 
-                key={index} 
+              <div
+                key={index}
                 className={`about__skill-bubble about__skill-bubble--${skill.size}`}
               >
                 <div className="about__skill-icon">{skill.icon}</div>
@@ -110,11 +110,11 @@ const AboutSection = (): JSX.Element => {
               </div>
             ))}
           </div>
-          
+
           <div className="about__tech-cloud">
             {technologies.map((tech, index) => (
-              <span 
-                key={index} 
+              <span
+                key={index}
                 className={`about__tech-tag about__tech-tag--${tech.size}`}
               >
                 {tech.name}

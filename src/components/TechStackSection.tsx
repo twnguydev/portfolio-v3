@@ -1,55 +1,7 @@
 import React from 'react';
-
-interface TechFeature {
-  name: string;
-  items: string[];
-  gradient: string;
-}
+import { features } from '@/data/tech-stack';
 
 const TechStackSection = (): JSX.Element => {
-  const features: TechFeature[] = [
-    {
-      name: "Frontend",
-      items: [
-        "React & Next.js",
-        "Angular & TypeScript",
-        "TailwindCSS & SCSS",
-        "UX/UI responsive"
-      ],
-      gradient: "from-rose-500 to-purple-500"
-    },
-    {
-      name: "Backend",
-      items: [
-        "Laravel & PHP",
-        "Spring Boot & Java",
-        "Nest & Express",
-        "APIs RESTful"
-      ],
-      gradient: "from-purple-500 to-blue-500"
-    },
-    {
-      name: "Base de données",
-      items: [
-        "MySQL & PostgreSQL",
-        "MongoDB",
-        "Optimisation des requêtes",
-        "Modélisation de données"
-      ],
-      gradient: "from-blue-500 to-cyan-500"
-    },
-    {
-      name: "DevOps & Outils",
-      items: [
-        "Docker & CI/CD",
-        "Git & GitHub/GitLab",
-        "Tests automatisés",
-        "Monitoring & Sécurité"
-      ],
-      gradient: "from-cyan-500 to-teal-500"
-    }
-  ];
-
   return (
     <section className="tech-stack">
       <div className="tech-stack__overlay"></div>
@@ -82,12 +34,22 @@ const TechStackSection = (): JSX.Element => {
                 </h3>
                 <ul className="tech-stack__list">
                   {feature.items.map((item, itemIndex) => (
-                    <li key={itemIndex} className="tech-stack__list-item">
-                      <div 
-                        className="tech-stack__list-dot"
-                        data-gradient={feature.gradient}
-                      ></div>
-                      {item}
+                    <li key={itemIndex} className="tech-stack__list-item tech-stack__list-item--with-progress">
+                      <div className="tech-stack__list-item-header">
+                        <div 
+                          className="tech-stack__list-dot"
+                          data-gradient={feature.gradient}
+                        ></div>
+                        <span className="tech-stack__item-name">{item.name}</span>
+                        <span className="tech-stack__progress-value">{item.proficiency}%</span>
+                      </div>
+                      <div className="tech-stack__progress-container">
+                        <div 
+                          className="tech-stack__progress-bar" 
+                          data-gradient={feature.gradient}
+                          style={{ width: `${item.proficiency}%` }}
+                        ></div>
+                      </div>
                     </li>
                   ))}
                 </ul>

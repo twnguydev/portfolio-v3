@@ -61,8 +61,8 @@ const TerminalSection = (): JSX.Element => {
       description: 'Compétences techniques',
       output: [
         '💻 Compétences techniques:',
-        '   Frontend: React, Next.js, Angular, TypeScript',
-        '   Backend: Laravel, Spring Boot, Node.js',
+        '   Front-end: React, Next.js, Angular, TypeScript',
+        '   Back-end: Laravel, Spring Boot, Node.js',
         '   DevOps: Docker, CI/CD, Déploiement',
         '   Autres: IA Générative, Automatisation'
       ]
@@ -85,7 +85,7 @@ const TerminalSection = (): JSX.Element => {
       description: 'Détails des projets',
       output: [
         '📂 Modernisation ERP:',
-        '   - Migration d\'architecture monolithique vers API/Frontend',
+        '   - Migration d\'architecture monolithique vers API/Front-end',
         '   - Mise en place Docker et CI/CD',
         '   - Amélioration UX et performances',
         '',
@@ -142,7 +142,7 @@ const TerminalSection = (): JSX.Element => {
   // Modifié pour éviter le scroll inattendu
   const scrollToBottom = useCallback(() => {
     if (!shouldScroll) return;
-    
+
     if (terminalContentRef.current) {
       terminalContentRef.current.scrollTop = terminalContentRef.current.scrollHeight;
     }
@@ -157,15 +157,15 @@ const TerminalSection = (): JSX.Element => {
 
   const handleCommand = useCallback((cmd: string) => {
     if (cmd.trim() === '') return;
-    
+
     setCommandOutput(prev => [...prev, `$ ${cmd}`]);
     setShouldScroll(true);
-    
+
     if (cmd === 'clear') {
       setCommandOutput([]);
       return;
     }
-    
+
     if (cmd === 'snake') {
       const snakeCommand = commands.find(c => c.command === 'snake');
       if (snakeCommand) {
@@ -177,9 +177,9 @@ const TerminalSection = (): JSX.Element => {
       }
       return;
     }
-    
+
     const foundCommand = commands.find(c => c.command === cmd.trim());
-    
+
     if (foundCommand) {
       setCommandOutput(prev => [...prev, ...foundCommand.output]);
     } else {
@@ -189,7 +189,7 @@ const TerminalSection = (): JSX.Element => {
 
   const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
     if (isSnakeActive) return;
-    
+
     if (e.key === 'Enter') {
       e.preventDefault();
       const cmd = inputValue.trim();
@@ -248,7 +248,7 @@ const TerminalSection = (): JSX.Element => {
     if (!userClickedTerminal) {
       setUserClickedTerminal(true);
     }
-    
+
     if (!isSnakeActive && inputRef.current) {
       inputRef.current.focus();
     }
@@ -292,13 +292,13 @@ const TerminalSection = (): JSX.Element => {
               <div className="terminal__title">tanguy@portfolio:~$</div>
             </div>
 
-            <div 
-              className={`terminal__content ${isSnakeActive ? 'terminal__content--game-active' : ''}`} 
+            <div
+              className={`terminal__content ${isSnakeActive ? 'terminal__content--game-active' : ''}`}
               ref={terminalContentRef}
             >
               <div className="terminal__welcome">
                 <div className="terminal__ascii-art">
-{`  _______                            
+                  {`  _______                            
  |__   __|                           
     | | __ _ _ __   __ _ _   _ _   _ 
     | |/ _\` | '_ \\ / _\` | | | | | | |
@@ -311,7 +311,7 @@ const TerminalSection = (): JSX.Element => {
                   Bienvenue dans mon portfolio en ligne de commande! Tapez <span className="terminal__highlight">help</span> pour commencer.
                 </div>
               </div>
-              
+
               <div className="terminal__lines">
                 {commandOutput.map((line, index) => (
                   <div key={index} className={`terminal__line ${line.startsWith('$') ? 'terminal__line--command' : ''}`}>
@@ -337,7 +337,7 @@ const TerminalSection = (): JSX.Element => {
                   />
                 </div>
               )}
-              
+
               {!isSnakeActive && (
                 <div className="terminal__input-line">
                   <span className="terminal__prompt">$</span>

@@ -45,7 +45,7 @@ export const metadata: Metadata = {
     telephone: false,
   },
   category: 'technology',
-  
+
   openGraph: {
     type: 'website',
     locale: 'fr_FR',
@@ -79,14 +79,14 @@ export const metadata: Metadata = {
     shortcut: [{ url: '/favicon.ico' }]
   },
   manifest: '/manifest.json',
-  
+
   alternates: {
     canonical: 'https://tanguy-gibrat.fr',
     languages: {
       'fr-FR': 'https://tanguy-gibrat.fr'
     }
   },
-  
+
   robots: {
     index: true,
     follow: true,
@@ -161,7 +161,7 @@ export default function RootLayout({
                   "position": 1,
                   "item": {
                     "@type": "Course",
-                    "name": "Développement Web Frontend",
+                    "name": "Développement Web Front-end",
                     "description": "React, Next.js, Angular, TypeScript",
                     "provider": {
                       "@type": "Organization",
@@ -174,7 +174,7 @@ export default function RootLayout({
                   "position": 2,
                   "item": {
                     "@type": "Course",
-                    "name": "Développement Web Backend",
+                    "name": "Développement Web Back-end",
                     "description": "Laravel, Spring Boot, Node.js, APIs RESTful",
                     "provider": {
                       "@type": "Organization",
@@ -199,7 +199,7 @@ export default function RootLayout({
             })
           }}
         />
-        
+
         {/* ProjectsStructuredData */}
         <script
           type="application/ld+json"
@@ -234,7 +234,7 @@ export default function RootLayout({
             })
           }}
         />
-        
+
         {children}
       </body>
     </html>
