@@ -4,7 +4,7 @@ import React from 'react';
 import Header from '@/components/layout/header';
 import HeroSection from '@/components/hero-section';
 import AboutSection from '@/components/about-section';
-import ProjectSection from '@/components/projects/section';
+import ProjectSection from '@/components/projects/project-section';
 import ProgressionSection from '@/components/progression-section';
 import AdvantageSection from '@/components/advantage-section';
 import TechStackSection from '@/components/tech-stack-section';
