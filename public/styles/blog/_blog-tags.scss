@@ -1,0 +1,109 @@
+.blog-tags {
+  margin: 2rem 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+  
+  &__item {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background-color: var(--color-gray-800);
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    color: var(--color-gray-300);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: 1px solid var(--color-gray-700);
+    
+    &:hover {
+      background-color: var(--color-gray-700);
+      color: var(--color-white);
+    }
+    
+    &--active {
+      background-color: var(--color-purple-600);
+      color: var(--color-white);
+      border-color: var(--color-purple-500);
+      
+      &:hover {
+        background-color: var(--color-purple-700);
+      }
+    }
+  }
+  
+  &__cloud {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+    
+    &-item {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      background-color: var(--color-gray-800);
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      color: var(--color-gray-300);
+      text-decoration: none;
+      transition: all 0.3s ease;
+      
+      &:hover {
+        background-color: var(--color-gray-700);
+        color: var(--color-white);
+      }
+      
+      &--xs {
+        font-size: 0.7rem;
+      }
+      
+      &--sm {
+        font-size: 0.75rem;
+      }
+      
+      &--md {
+        font-size: 0.85rem;
+      }
+      
+      &--lg {
+        font-size: 0.95rem;
+      }
+      
+      &--xl {
+        font-size: 1.05rem;
+      }
+    }
+  }
+}
+
+.article-tags {
+  margin-top: 2rem;
+  
+  &__title {
+    font-size: 1.125rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+  }
+  
+  &__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  
+  &__item {
+    display: inline-block;
+    padding: 0.3rem 0.8rem;
+    background-color: var(--color-gray-700);
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    color: var(--color-gray-200);
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    
+    &:hover {
+      background-color: var(--color-gray-600);
+    }
+  }
+}

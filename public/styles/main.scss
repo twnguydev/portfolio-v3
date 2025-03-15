@@ -16,3 +16,11 @@
 
 @use 'components/wall-of-reviews';
 
+@use 'blog/blog';
+@use 'blog/author-bio';
+@use 'blog/category-tag';
+@use 'blog/related-posts';
+@use 'blog/share-buttons';
+@use 'blog/table-of-content';
+@use 'blog/view-counter';
+@use 'blog/blog-tags';

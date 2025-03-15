@@ -1,0 +1,97 @@
+:root {
+  // Couleurs de base
+  --color-white: #ffffff;
+  --color-black: #000000;
+  
+  // Nuances de gris
+  --color-gray-100: #f3f4f6;
+  --color-gray-200: #e5e7eb;
+  --color-gray-300: #d1d5db;
+  --color-gray-400: #9ca3af;
+  --color-gray-500: #6b7280;
+  --color-gray-600: #4b5563;
+  --color-gray-700: #374151;
+  --color-gray-800: #1f2937;
+  --color-gray-900: #111827;
+  
+  // Couleurs blue
+  --color-blue-400: #60a5fa;
+  --color-blue-500: #3b82f6;
+  --color-blue-600: #2563eb;
+  
+  // Couleurs indigo
+  --color-indigo-500: #6366f1;
+  --color-indigo-600: #4f46e5;
+  
+  // Couleurs purple
+  --color-purple-500: #8b5cf6;
+  --color-purple-600: #7c3aed;
+  
+  // Couleurs pink
+  --color-pink-500: #ec4899;
+  --color-pink-600: #db2777;
+  
+  // Couleurs rose
+  --color-rose-500: #f43f5e;
+  --color-rose-600: #e11d48;
+  
+  // Couleurs green
+  --color-green-500: #10b981;
+  --color-green-600: #059669;
+  
+  // Couleurs emerald
+  --color-emerald-500: #10b981;
+  --color-emerald-600: #059669;
+  
+  // Couleurs teal
+  --color-teal-500: #14b8a6;
+  --color-teal-600: #0d9488;
+  
+  // Couleurs cyan
+  --color-cyan-500: #06b6d4;
+  --color-cyan-600: #0891b2;
+  
+  // Couleurs sky
+  --color-sky-500: #0ea5e9;
+  --color-sky-600: #0284c7;
+  
+  // Couleurs red
+  --color-red-500: #ef4444;
+  --color-red-600: #dc2626;
+  --color-red-700: #b91c1c;
+  
+  // Couleurs orange
+  --color-orange-500: #f97316;
+  --color-orange-600: #ea580c;
+  
+  // Couleurs amber
+  --color-amber-500: #f59e0b;
+  --color-amber-600: #d97706;
+  
+  // Couleurs yellow
+  --color-yellow-500: #eab308;
+  --color-yellow-600: #ca8a04;
+  
+  // Couleurs lime
+  --color-lime-500: #84cc16;
+  --color-lime-600: #65a30d;
+  
+  // Couleurs violet
+  --color-violet-500: #8b5cf6;
+  --color-violet-600: #7c3aed;
+  
+  // Couleurs slate
+  --color-slate-500: #64748b;
+  --color-slate-600: #475569;
+  
+  // Breakpoints
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  
+  // Transitions
+  --transition-fast: 150ms ease;
+  --transition-normal: 300ms ease;
+  --transition-slow: 500ms ease;
+}

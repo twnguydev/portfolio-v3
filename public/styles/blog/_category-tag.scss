@@ -1,0 +1,154 @@
+.category-tag {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: white;
+  border-radius: 9999px;
+  transition: background-color 0.3s ease;
+  text-decoration: none;
+  
+  &--developpement {
+    background-color: var(--color-blue-500);
+    
+    &:hover {
+      background-color: var(--color-blue-600);
+    }
+  }
+  
+  &--web {
+    background-color: var(--color-indigo-500);
+    
+    &:hover {
+      background-color: var(--color-indigo-600);
+    }
+  }
+  
+  &--design {
+    background-color: var(--color-pink-500);
+    
+    &:hover {
+      background-color: var(--color-pink-600);
+    }
+  }
+  
+  &--tutoriel {
+    background-color: var(--color-green-500);
+    
+    &:hover {
+      background-color: var(--color-green-600);
+    }
+  }
+  
+  &--workflow {
+    background-color: var(--color-amber-500);
+    
+    &:hover {
+      background-color: var(--color-amber-600);
+    }
+  }
+  
+  &--devops {
+    background-color: var(--color-red-500);
+    
+    &:hover {
+      background-color: var(--color-red-600);
+    }
+  }
+  
+  &--outils {
+    background-color: var(--color-purple-500);
+    
+    &:hover {
+      background-color: var(--color-purple-600);
+    }
+  }
+  
+  &--programmation {
+    background-color: var(--color-teal-500);
+    
+    &:hover {
+      background-color: var(--color-teal-600);
+    }
+  }
+  
+  &--mobile {
+    background-color: var(--color-orange-500);
+    
+    &:hover {
+      background-color: var(--color-orange-600);
+    }
+  }
+  
+  &--backend {
+    background-color: var(--color-cyan-500);
+    
+    &:hover {
+      background-color: var(--color-cyan-600);
+    }
+  }
+  
+  &--frontend {
+    background-color: var(--color-rose-500);
+    
+    &:hover {
+      background-color: var(--color-rose-600);
+    }
+  }
+  
+  &--database {
+    background-color: var(--color-emerald-500);
+    
+    &:hover {
+      background-color: var(--color-emerald-600);
+    }
+  }
+  
+  &--architecture {
+    background-color: var(--color-violet-500);
+    
+    &:hover {
+      background-color: var(--color-violet-600);
+    }
+  }
+  
+  &--securite {
+    background-color: var(--color-red-600);
+    
+    &:hover {
+      background-color: var(--color-red-700);
+    }
+  }
+  
+  &--performance {
+    background-color: var(--color-yellow-500);
+    
+    &:hover {
+      background-color: var(--color-yellow-600);
+    }
+  }
+  
+  &--retour-experience {
+    background-color: var(--color-slate-500);
+    
+    &:hover {
+      background-color: var(--color-slate-600);
+    }
+  }
+  
+  &--veille {
+    background-color: var(--color-lime-500);
+    
+    &:hover {
+      background-color: var(--color-lime-600);
+    }
+  }
+  
+  &--default {
+    background-color: var(--color-gray-600);
+    
+    &:hover {
+      background-color: var(--color-gray-700);
+    }
+  }
+}

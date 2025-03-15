@@ -1,0 +1,10 @@
+.view-counter {
+  display: flex;
+  align-items: center;
+  color: var(--color-gray-500);
+  font-size: 0.875rem;
+  
+  &__icon {
+    margin-right: 0.25rem;
+  }
+}
