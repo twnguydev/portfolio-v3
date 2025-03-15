@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build && tsc --project tsconfig.server.json",
-    "start": "NODE_ENV=production node server.js",
+    "start": "node server.mjs",
     "lint": "next lint",
     "sass": "sass public/styles/main.scss:public/styles/main.css --watch",
     "sass:build": "sass public/styles/main.scss:public/styles/main.css --style compressed",

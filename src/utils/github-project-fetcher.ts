@@ -1,6 +1,6 @@
-import { Project } from '@/interfaces/project';
 import fs from 'fs';
 import path from 'path';
+import type { Project } from '@/interfaces/project';
 
 interface GitHubConfig {
   username: string;
@@ -29,10 +29,10 @@ interface GitHubRepository {
 }
 
 export class GithubProjectFetcher {
-  private config: GitHubConfig;
-  private dataDir: string;
-  private cacheFilePath: string;
-  private projectsFilePath: string;
+  private config;
+  private dataDir;
+  private cacheFilePath;
+  private projectsFilePath;
 
   constructor(config: GitHubConfig) {
     this.config = config;
@@ -227,7 +227,7 @@ export class GithubProjectFetcher {
       const projectsDataString = projectsDataMatch[1];
       const existingProjects = projectsDataString
         .split('},')
-        .filter(project => !project.includes('_source: \'github\''))
+        .filter((project: string | string[]) => !project.includes('_source: \'github\''))
         .join('},');
 
       const newProjectsString = newProjects.map(project => {

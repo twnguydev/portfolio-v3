@@ -1,6 +1,12 @@
-const { createServer } = require('http');
-const { parse } = require('url');
-const next = require('next');
+import { createServer } from 'http';
+import { parse } from 'url';
+import next from 'next';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+import { setupGithubCronJob } from './dist/utils/cron-jobs.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
@@ -9,7 +15,6 @@ const handle = app.getRequestHandler();
 app.prepare().then(() => {
   if (!dev) {
     try {
-      const { setupGithubCronJob } = require('./dist/utils/cron-jobs');
       setupGithubCronJob();
       console.log('GitHub cron job configured successfully');
     } catch (error) {
