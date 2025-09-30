@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import { execSync } from 'child_process';
 
 interface GitHubConfig {
   username: string;
@@ -80,7 +81,6 @@ export class GithubProjectFetcher {
     let localProjectsFile = '';
     try {
       // Exécuter une commande find pour localiser le fichier
-      const { execSync } = require('child_process');
       const result = execSync('find /app -name "projects.ts" | grep -v node_modules').toString().trim().split('\n');
       
       console.log('Fichiers projects.ts trouvés:', result);

@@ -1,26 +1,69 @@
 import fs from 'fs';
 import path from 'path';
+import { execSync } from 'child_process';
 export class GithubProjectFetcher {
     constructor(config) {
         this.config = config;
-        this.dataDir = process.env.NODE_ENV === 'production'
-            ? path.join(process.cwd(), 'data')
-            : path.join(process.cwd(), 'data');
+        // Définir les répertoires
+        this.dataDir = path.join(process.cwd(), 'data');
+        console.log('Répertoire courant:', process.cwd());
+        console.log('Vérification des répertoires et fichiers:');
+        // Créer le répertoire data s'il n'existe pas
         if (!fs.existsSync(this.dataDir)) {
+            console.log(`Création du répertoire ${this.dataDir}`);
             fs.mkdirSync(this.dataDir, { recursive: true });
         }
         this.cacheFilePath = path.join(this.dataDir, 'github-cache.json');
-        this.projectsFilePath = path.join(process.cwd(), 'data', 'projects.ts');
-        if (!fs.existsSync(this.projectsFilePath)) {
-            this.createProjectsTemplate();
+        this.projectsFilePath = path.join(this.dataDir, 'projects.ts');
+        // Tenter de copier les projets depuis le fichier original
+        // si celui-ci existe dans l'arborescence
+        // Option 1: Chercher dans tous les dossiers à partir de la racine
+        let localProjectsFile = '';
+        try {
+            // Exécuter une commande find pour localiser le fichier
+            const result = execSync('find /app -name "projects.ts" | grep -v node_modules').toString().trim().split('\n');
+            console.log('Fichiers projects.ts trouvés:', result);
+            if (result.length > 0) {
+                // Prendre le premier fichier trouvé qui n'est pas celui qu'on va créer
+                for (const filePath of result) {
+                    if (filePath !== this.projectsFilePath) {
+                        localProjectsFile = filePath;
+                        break;
+                    }
+                }
+            }
         }
+        catch (error) {
+            console.error('Erreur lors de la recherche du fichier projects.ts:', error);
+        }
+        // Si un fichier a été trouvé, l'utiliser
+        if (localProjectsFile && fs.existsSync(localProjectsFile)) {
+            console.log(`Fichier projects.ts trouvé à ${localProjectsFile}`);
+            try {
+                // Copier le fichier dans le répertoire data
+                fs.copyFileSync(localProjectsFile, this.projectsFilePath);
+                console.log(`Fichier projects.ts copié vers ${this.projectsFilePath}`);
+                return;
+            }
+            catch (error) {
+                console.error(`Erreur lors de la copie du fichier projects.ts:`, error);
+            }
+        }
+        // Si le fichier projects.ts existe déjà dans le répertoire cible, ne rien faire
+        if (fs.existsSync(this.projectsFilePath)) {
+            console.log(`Le fichier projects.ts existe déjà dans ${this.projectsFilePath}`);
+            return;
+        }
+        // Si on arrive ici, c'est qu'aucun fichier n'a été trouvé ou copié
+        console.log(`Aucun fichier projects.ts existant trouvé, création d'un nouveau template`);
+        this.createProjectsTemplate();
     }
     createProjectsTemplate() {
         const template = `import { Project } from '@/interfaces/project';
-  import { getDescriptionById } from "./rncp-skills";
+  import { getDescriptionById } from "./rncp-skills.js";
   
   export const projectsData: Project[] = [
-    // Les projets seront ajoutés ici automatiquement
+    // Les projets manuels seront ajoutés ici
   ];
   `;
         const dir = path.dirname(this.projectsFilePath);
@@ -126,11 +169,19 @@ export class GithubProjectFetcher {
                         continue;
                     }
                     const projectData = await masterResponse.json();
-                    portfolioProjects.push(Object.assign(Object.assign({}, projectData), { sourceUrl: repo.html_url, _source: 'github' }));
+                    portfolioProjects.push({
+                        ...projectData,
+                        sourceUrl: repo.html_url,
+                        _source: 'github'
+                    });
                 }
                 else {
                     const projectData = await response.json();
-                    portfolioProjects.push(Object.assign(Object.assign({}, projectData), { sourceUrl: repo.html_url, _source: 'github' }));
+                    portfolioProjects.push({
+                        ...projectData,
+                        sourceUrl: repo.html_url,
+                        _source: 'github'
+                    });
                 }
             }
             catch (error) {
@@ -141,19 +192,78 @@ export class GithubProjectFetcher {
     }
     async updateProjectsFile(newProjects) {
         try {
-            const projectsContent = fs.readFileSync(this.projectsFilePath, 'utf-8');
-            const projectsDataMatch = projectsContent.match(/export const projectsData: Project\[\] = \[([\s\S]*?)\];/);
-            if (!projectsDataMatch) {
+            // Vérifier si le fichier projects.ts existe déjà
+            if (!fs.existsSync(this.projectsFilePath)) {
+                this.createProjectsTemplate();
+            }
+            // Lire le contenu du fichier projects.ts
+            const projectsFileContent = fs.readFileSync(this.projectsFilePath, 'utf-8');
+            // Extraire les projets manuels existants
+            const originalProjectsMatch = projectsFileContent.match(/export const projectsData: Project\[\] = \[([\s\S]*?)\];/);
+            if (!originalProjectsMatch) {
                 throw new Error('Format de fichier projects.ts non reconnu');
             }
-            const projectsDataString = projectsDataMatch[1];
-            const existingProjects = projectsDataString
-                .split('},')
-                .filter((project) => !project.includes('_source: \'github\''))
-                .join('},');
-            const newProjectsString = newProjects.map(project => {
-                var _a;
-                const processedSkills = (_a = project.skills) === null || _a === void 0 ? void 0 : _a.map(skill => {
+            // Voir s'il y a des projets existants
+            const existingProjectsContent = originalProjectsMatch[1].trim();
+            // Supprimer les projets GitHub existants
+            const manualProjects = [];
+            // Si des projets existent, les analyser
+            if (existingProjectsContent && !existingProjectsContent.startsWith('//')) {
+                // Tentative de charger le contenu comme JSON pour l'analyser
+                try {
+                    // Convertir le contenu en tableau d'objets JSON valide
+                    const jsonContent = `[${existingProjectsContent}]`;
+                    // Remplacer les appels à getDescriptionById par des placeholders pour la déserialisation
+                    const processedContent = jsonContent.replace(/getDescriptionById\(['"](.*?)['"]\)/g, '"__DESC_ID_$1__"');
+                    // Analyser le JSON modifié
+                    const allProjects = JSON.parse(processedContent);
+                    // Filtrer pour ne garder que les projets manuels
+                    for (const project of allProjects) {
+                        if (!project._source || project._source !== 'github') {
+                            manualProjects.push(project);
+                        }
+                    }
+                }
+                catch (err) {
+                    console.error('Erreur lors de l\'analyse des projets existants, utilisant une approche alternative:', err);
+                    // Approche alternative basée sur les délimiteurs de projets
+                    const projectParts = existingProjectsContent.split(/\s*},\s*\{/);
+                    for (const part of projectParts) {
+                        // Si le projet n'a pas la marque _source: 'github', ajouter à la liste des projets manuels
+                        if (!part.includes("_source: 'github'")) {
+                            // Reconstruire l'objet projet avec les accolades si nécessaire
+                            let projectStr = part;
+                            if (!projectStr.trim().startsWith('{')) {
+                                projectStr = '{' + projectStr;
+                            }
+                            if (!projectStr.trim().endsWith('}')) {
+                                projectStr = projectStr + '}';
+                            }
+                            manualProjects.push({ _rawContent: projectStr });
+                        }
+                    }
+                }
+            }
+            // Générer le contenu des projets manuels
+            let manualProjectsContent = '';
+            if (manualProjects.length > 0) {
+                // Deux cas possibles basés sur comment on a extrait les projets
+                if (manualProjects[0]._rawContent) {
+                    // Si on a utilisé l'approche alternative, on a juste le texte brut
+                    manualProjectsContent = manualProjects
+                        .map(p => p._rawContent)
+                        .join(',\n  ');
+                }
+                else {
+                    // Si on a pu parser le JSON, on le reconstruit en JSON valide, puis on restaure les appels à getDescriptionById
+                    manualProjectsContent = JSON.stringify(manualProjects, null, 2)
+                        .slice(1, -1) // Enlever les crochets externes
+                        .replace(/"__DESC_ID_(.*?)__"/g, 'getDescriptionById(\'$1\')');
+                }
+            }
+            // Générer le contenu pour les nouveaux projets GitHub
+            const githubProjectsContent = newProjects.map(project => {
+                const processedSkills = project.skills?.map(skill => {
                     if (skill.descriptions && Array.isArray(skill.descriptions)) {
                         const processedDescriptions = skill.descriptions.map(desc => {
                             if (typeof desc === 'string' && desc.includes('getDescriptionById')) {
@@ -161,7 +271,10 @@ export class GithubProjectFetcher {
                             }
                             return JSON.stringify(desc);
                         });
-                        return Object.assign(Object.assign({}, skill), { _processedDescriptions: processedDescriptions });
+                        return {
+                            ...skill,
+                            _processedDescriptions: processedDescriptions
+                        };
                     }
                     return skill;
                 });
@@ -169,11 +282,11 @@ export class GithubProjectFetcher {
                 if (processedSkills && processedSkills.length > 0) {
                     skillsString = processedSkills.map(skill => {
                         let skillObj = `{
-      name: ${JSON.stringify(skill.name)},\n`;
+        name: ${JSON.stringify(skill.name)},\n`;
                         if (skill._processedDescriptions) {
                             skillObj += `      descriptions: [
-        ${skill._processedDescriptions.join(',\n        ')}
-      ],\n`;
+          ${skill._processedDescriptions.join(',\n        ')}
+        ],\n`;
                         }
                         else if (skill.descriptions) {
                             skillObj += `      descriptions: ${JSON.stringify(skill.descriptions)},\n`;
@@ -189,23 +302,45 @@ export class GithubProjectFetcher {
                     }).join(',\n    ');
                 }
                 return `  {
-    title: ${JSON.stringify(project.title)},
-    description: ${JSON.stringify(project.description)},
-    shortDescription: ${JSON.stringify(project.shortDescription || '')},
-    images: ${JSON.stringify(project.images || [])},
-    tags: ${JSON.stringify(project.tags || [])},
-    type: ${JSON.stringify(project.type || 'school')},
-    sourceUrl: ${JSON.stringify(project.sourceUrl || '')},
-    demoUrl: ${JSON.stringify(project.demoUrl || '')},
-    skills: [
-    ${skillsString}
-    ],
-    badges: ${JSON.stringify(project.badges || [])},
-    _source: 'github'
-  }`;
+      title: ${JSON.stringify(project.title)},
+      description: ${JSON.stringify(project.description)},
+      shortDescription: ${JSON.stringify(project.shortDescription || '')},
+      images: ${JSON.stringify(project.images || [])},
+      tags: ${JSON.stringify(project.tags || [])},
+      type: ${JSON.stringify(project.type || 'school')},
+      sourceUrl: ${JSON.stringify(project.sourceUrl || '')},
+      demoUrl: ${JSON.stringify(project.demoUrl || '')},
+      skills: [
+      ${skillsString}
+      ],
+      badges: ${JSON.stringify(project.badges || [])},
+      _source: 'github'
+    }`;
             }).join(',\n');
-            const updatedContent = projectsContent.replace(/export const projectsData: Project\[\] = \[([\s\S]*?)\];/, `export const projectsData: Project[] = [${existingProjects}${existingProjects ? ',' : ''}\n${newProjectsString}\n];`);
+            // Combiner tous les projets
+            let allProjectsContent = '';
+            if (manualProjectsContent && githubProjectsContent) {
+                allProjectsContent = `${manualProjectsContent},\n${githubProjectsContent}`;
+            }
+            else if (manualProjectsContent) {
+                allProjectsContent = manualProjectsContent;
+            }
+            else {
+                allProjectsContent = githubProjectsContent;
+            }
+            // Reconstruire le fichier projects.ts complet
+            const updatedContent = `import { Project } from '@/interfaces/project';
+  import { getDescriptionById } from "./rncp-skills.js";
+  
+  export const projectsData: Project[] = [
+  ${allProjectsContent}
+  ];
+  `;
+            // Écrire le fichier mis à jour
             fs.writeFileSync(this.projectsFilePath, updatedContent, 'utf-8');
+            // Log des statistiques
+            console.log(`Updated projects file with ${newProjects.length} GitHub projects and preserved ${manualProjects.length} existing projects`);
+            console.log(`Projects stats: Original=${manualProjects.length}, GitHub=${newProjects.length}, Total=${manualProjects.length + newProjects.length}`);
         }
         catch (error) {
             console.error('Erreur lors de la mise à jour du fichier de projets:', error);

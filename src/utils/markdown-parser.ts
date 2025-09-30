@@ -36,7 +36,8 @@ export async function getArticleData(slug: string): Promise<BlogArticle> {
   const processedContent = await remark()
     .use(remarkGfm)  // Support GitHub Flavored Markdown
     .use(remarkRehype)  // Convertit Markdown AST en HTML AST
-    .use(rehypePrism)   // Syntax highlighting
+    /* eslint-disable  @typescript-eslint/no-explicit-any */
+    .use(rehypePrism as any)   // Syntax highlighting (cast to any to fix TS type error)
     .use(rehypeStringify)  // Convertit HTML AST en chaîne HTML
     .process(matterResult.content);
     
