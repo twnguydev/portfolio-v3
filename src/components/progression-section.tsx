@@ -73,7 +73,7 @@ const ProgressionSection = (): JSX.Element => {
   ];
 
   return (
-    <section className="progression">
+    <section className="progression" id="progression">
       <div className="progression__overlay"></div>
       <div className="progression__container">
         <div className="progression__header">

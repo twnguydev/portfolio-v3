@@ -1,3 +1,4 @@
+// src/config/github.ts
 export const githubConfig = {
   username: 'twnguydev',
   token: process.env.GITHUB_TOKEN,

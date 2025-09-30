@@ -1299,3 +1299,58 @@
     transform: translateX(0);
   }
 }
+
+/* À ajouter à votre CSS des projets */
+
+.projects__refresh-button {
+  background-color: #f5f5f5;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 1rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.projects__refresh-button:hover {
+  background-color: #e9e9e9;
+}
+
+.projects__error {
+  text-align: center;
+  padding: 2rem;
+  background-color: #fff5f5;
+  border-radius: 8px;
+  margin: 2rem 0;
+}
+
+.projects__error p {
+  margin-bottom: 1rem;
+  color: #e53e3e;
+}
+
+.projects__retry-button {
+  background-color: #3182ce;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.projects__retry-button:hover {
+  background-color: #2c5282;
+}
+
+.projects__count {
+  text-align: center;
+  margin-top: 2rem;
+  font-size: 0.9rem;
+  color: #666;
+}

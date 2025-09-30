@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY package.json package-lock.json ./
 
-RUN npm install
+RUN npm ci
 
 COPY . .
 
@@ -22,6 +22,8 @@ ENV GITHUB_TOKEN=GITHUB_TOKEN
 ENV GITHUB_CRON_SCHEDULE=GITHUB_CRON_SCHEDULE
 ENV RUN_GITHUB_JOB_ON_STARTUP=RUN_GITHUB_JOB_ON_STARTUP
 
+ENV NODE_OPTIONS="--experimental-specifier-resolution=node"
+
 RUN npm run build
 
 FROM node:20-alpine AS runner
@@ -36,7 +38,11 @@ COPY --from=builder /app/package.json ./package.json
 COPY --from=builder /app/server.js ./server.js
 
 RUN mkdir -p /app/data
-RUN chown -R node:node /app/data
+RUN chown -R node:node /app
+
+USER node
+
+ENV NODE_OPTIONS="--experimental-specifier-resolution=node"
 
 EXPOSE 3000
 

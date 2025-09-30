@@ -62,7 +62,7 @@ const AdvantageSection = (): JSX.Element => {
   ];
 
   return (
-    <section className="advantages">
+    <section className="advantages" id="advantages">
       <div className="advantages__overlay"></div>
       <div className="advantages__container">
         <div className="advantages__header">

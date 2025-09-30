@@ -9,9 +9,10 @@ const Header = (): JSX.Element => {
 
   const menuItems = [
     { label: 'Accueil', href: '/' },
-    // { label: 'Blog', href: '/blog' },
-    // { label: 'Recommandations', href: '/wall-of-reviews' },
-    // { label: 'Administration', href: '/admin' }
+    { label: 'Qui suis-je ?', href: '#about' },
+    { label: 'Mes réalisations', href: '#portfolio' },
+    { label: 'Mon parcours', href: '#progression' },
+    { label: 'Mon approche technique', href: '#advantages' }
   ];
 
   return (
