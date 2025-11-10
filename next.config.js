@@ -9,6 +9,13 @@ const nextConfig = {
     }
     return config;
   },
+  devIndicators: {
+    buildActivity: false,
+  },
+  experimental: {
+    // Désactive les devtools problématiques
+    devOverlays: false,
+  },
 };
 
 export default nextConfig;

@@ -26,46 +26,46 @@ export const ProjectCard = ({ project, onClick }: { project: Project, onClick: (
         <div className="projects__gradient-overlay"></div>
         <div className="projects__theme-overlay"></div>
 
-        {badges && (
-          <div className="projects__badges">
-            {type === 'professional' ? (
-              <span className="projects__badge projects__badge--professional">
-                <Briefcase className="projects__badge-icon" size={14} />
-                Pro
-              </span>
-            ) : (
-              <span className="projects__badge projects__badge--school">
-                <Backpack className="projects__badge-icon" size={14} />
-                École
-              </span>
-            )}
-            
-            {badges.inProgress && (
-              <span className="projects__badge projects__badge--in-progress">
-                <Clock className="projects__badge-icon" size={14} />
-                En cours
-              </span>
-            )}
-            {badges.winner && (
-              <span className="projects__badge projects__badge--winner">
-                <Trophy className="projects__badge-icon" size={14} />
-                Lauréat
-              </span>
-            )}
-            {badges.hackathon && (
-              <span className="projects__badge projects__badge--hackathon">
-                <Rocket className="projects__badge-icon" size={14} />
-                Hackathon
-              </span>
-            )}
-            {badges.ia && (
-              <span className="projects__badge projects__badge--ia">
-                <Brain className="projects__badge-icon" size={14} />
-                IA
-              </span>
-            )}
-          </div>
-        )}
+        <div className="projects__badges">
+          {/* Badge Pro/École - toujours affiché */}
+          {type === 'professional' ? (
+            <span className="projects__badge projects__badge--professional">
+              <Briefcase className="projects__badge-icon" size={14} />
+              Pro
+            </span>
+          ) : type === 'school' ? (
+            <span className="projects__badge projects__badge--school">
+              <Backpack className="projects__badge-icon" size={14} />
+              École
+            </span>
+          ) : null}
+          
+          {/* Autres badges - affichés seulement si définis */}
+          {badges?.inProgress && (
+            <span className="projects__badge projects__badge--in-progress">
+              <Clock className="projects__badge-icon" size={14} />
+              En cours
+            </span>
+          )}
+          {badges?.winner && (
+            <span className="projects__badge projects__badge--winner">
+              <Trophy className="projects__badge-icon" size={14} />
+              Lauréat
+            </span>
+          )}
+          {badges?.hackathon && (
+            <span className="projects__badge projects__badge--hackathon">
+              <Rocket className="projects__badge-icon" size={14} />
+              Hackathon
+            </span>
+          )}
+          {badges?.ia && (
+            <span className="projects__badge projects__badge--ia">
+              <Brain className="projects__badge-icon" size={14} />
+              IA
+            </span>
+          )}
+        </div>
 
         <div className="projects__info">
           <h3 className="projects__info-title">{title}</h3>

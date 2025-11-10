@@ -52,7 +52,8 @@ export const projectsData: Project[] = [
     sourceUrl: "https://github.com/twnguydev/twool",
     badges: {
       professional: true,
-      inProgress: true
+      inProgress: true,
+      ia: true,
     },
     skills: [
       {
@@ -69,6 +70,62 @@ export const projectsData: Project[] = [
         name: "Performance et optimisation",
         description: "Implémentation d'algorithmes d'optimisation pour l'analyse et l'amélioration des workflows client.",
         category: "Back-end"
+      }
+    ]
+  },
+  {
+    title: "Eventify",
+    shortDescription: "Plateforme qui agrège des événements locaux personnalisés",
+    description: "Eventify est une plateforme web qui agrège des événements locaux à partir de diverses sources et les personnalise en fonction des préférences des utilisateurs, offrant une expérience unique pour découvrir des activités près de chez soi.",
+    images: [
+      "/images/projects/eventify-1.png",
+      "/images/projects/eventify-2.png",
+      "/images/projects/eventify-3.png",
+      "/images/projects/eventify-4.png"
+    ],
+    tags: ["Angular", "TypeScript", "Tailwind", "PHP", "Laravel", "Docker", "MySQL", "Swagger"],
+    gradient: "pink-purple",
+    type: "school",
+    sourceUrl: "https://github.com/twnguydev/eventify",
+    skills: [
+      {
+        name: "Compréhension des besoins métier",
+        description: getDescriptionById('RNCP01-2'),
+        category: "Management",
+        rncpSkillIds: ["RNCP01-2"],
+        rncpReference: "RNCP38436BC01 - Cadrer un projet et conceptualiser une solution web"
+      },
+      {
+        name: "Organisation du projet",
+        description: getDescriptionById('RNCP01-3'),
+        category: "Management",
+        rncpSkillIds: ["RNCP01-3"],
+        rncpReference: "RNCP38436BC01 - Cadrer un projet et conceptualiser une solution web"
+      },
+      {
+        name: "Développement Full-Stack",
+        descriptions: [
+          getDescriptionById('RNCP02-2'),
+          getDescriptionById('RNCP02-4'),
+          getDescriptionById('RNCP02-5')
+        ],
+        category: "Développement",
+        rncpSkillIds: ["RNCP02-2", "RNCP02-4", "RNCP02-5"],
+        rncpReference: "RNCP38436BC02 - Développer une solution web"
+      },
+      {
+        name: "Authentification sécurisée",
+        description: getDescriptionById('RNCP02-6'),
+        category: "Sécurité",
+        rncpSkillIds: ["RNCP02-6"],
+        rncpReference: "RNCP38436BC02 - Développer une solution web"
+      },
+      {
+        name: "Cycle de vie d'une application",
+        description: getDescriptionById('RNCP03-5'),
+        category: "Qualité",
+        rncpSkillIds: ["RNCP03-5"],
+        rncpReference: "RNCP38436BC03 - Déployer un système d'assurance qualité tout au long du cycle de vie d'une solution web"
       }
     ]
   },
